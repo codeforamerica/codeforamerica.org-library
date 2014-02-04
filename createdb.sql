@@ -40,5 +40,8 @@ CREATE TABLE item_contacts
 );
 
 CREATE INDEX item_tag_items ON item_tags (item_id);
+CREATE INDEX item_tag_tags ON item_tags (tag);
 CREATE INDEX item_contributor_items ON item_contributors (item_id);
+CREATE INDEX item_contributor_people ON item_contributors (person_id);
 CREATE INDEX item_contact_items ON item_contacts (item_id);
+CREATE INDEX item_contact_people ON item_contacts (person_id);

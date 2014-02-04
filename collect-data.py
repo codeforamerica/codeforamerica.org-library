@@ -2,6 +2,7 @@ from os import environ
 from re import split
 from itertools import chain
 from multiprocessing import Pool
+from sqlite3 import connect
 
 import gspread
 
@@ -66,4 +67,31 @@ if __name__ == '__main__':
         
         items.append(item)
     
-    print people
+    with connect('data.db') as db:
+        db.execute('DELETE FROM people')
+        db.execute('DELETE FROM items')
+        db.execute('DELETE FROM item_tags')
+        db.execute('DELETE FROM item_contributors')
+        db.execute('DELETE FROM item_contacts')
+
+        db.executemany('INSERT INTO people (id, name) VALUES (?, ?)',
+                       list(enumerate(people)))
+        
+        for (item_id, item) in enumerate(items):
+            db.execute('''INSERT INTO items
+                          (id, title, link, program, location, date, format)
+                          VALUES (?, ?, ?, ?, ?, ?, ?)''',
+                       (item_id, item['title'], item['link'], item['program'],
+                        item['location'], item['date'], item['format'])
+                       )
+            
+            db.executemany('INSERT INTO item_tags (item_id, tag) VALUES (?, ?)',
+                           [(item_id, tag) for tag in item['tags']])
+            
+            db.executemany('INSERT INTO item_contributors (item_id, person_id) VALUES (?, ?)',
+                           [(item_id, person_id) for person_id in item['contributors']])
+            
+            db.executemany('INSERT INTO item_contacts (item_id, person_id) VALUES (?, ?)',
+                           [(item_id, person_id) for person_id in item['contacts']])
+
+        db.execute('VACUUM')
