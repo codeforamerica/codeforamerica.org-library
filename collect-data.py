@@ -1,3 +1,12 @@
+''' Repopulate database from scratch.
+
+Destroy data in people, items, item_tags, item_contacts, and item_contributors
+tables, replace with new data from Google spreadsheet "CfA Library Taxonomy".
+
+Assumes that scheme from createdb.sql is already in-place.
+
+'''
+from sys import argv
 from os import environ
 from re import split
 from itertools import chain
@@ -33,8 +42,8 @@ def load_rows(username, password):
 
 if __name__ == '__main__':
 
-    items = []
-    people = []
+    (dbname, ) = argv[1:]
+    items, people = [], []
     
     for row in load_rows(environ['GDOCS_USERNAME'], environ['GDOCS_PASSWORD']):
 
@@ -67,7 +76,8 @@ if __name__ == '__main__':
         
         items.append(item)
     
-    with connect('data.db') as db:
+    with connect(dbname) as db:
+
         db.execute('DELETE FROM people')
         db.execute('DELETE FROM items')
         db.execute('DELETE FROM item_tags')
