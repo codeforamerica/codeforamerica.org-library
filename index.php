@@ -13,7 +13,7 @@
 <body>
 <ul>
     <? foreach(get_categories($context) as $category) { ?>
-        <li><a href="category.php?name=<?= urlencode($category) ?>"><?= htmlspecialchars($category) ?></a></li>
+        <li><a href="<?= $context->base() ?>/category/<?= urlencode($category) ?>"><?= htmlspecialchars($category) ?></a></li>
     <? } ?>
 </ul>
 </body>

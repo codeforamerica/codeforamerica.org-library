@@ -2,7 +2,7 @@
 
     require_once 'lib.php';
     $context = new Context('data.db');
-    $cat_name = $_GET['name'];
+    $cat_name = $context->path_info();
 
 ?>
 <!DOCTYPE html>
@@ -14,7 +14,7 @@
 <body>
 <ul>
     <? foreach(get_category_items($context, $cat_name) as $item) { ?>
-        <li><a href="item.php?id=<?= urlencode($item['id']) ?>"><?= htmlspecialchars($item['title']) ?></a></li>
+        <li><a href="<?= $context->base() ?>/item/<?= urlencode($item['id']) ?>"><?= htmlspecialchars($item['title']) ?></a></li>
     <? } ?>
 </ul>
 </body>

@@ -9,6 +9,16 @@
         {
             $this->dbh = new PDO("sqlite:{$dbname}");
         }
+        
+        function path_info()
+        {
+            return urldecode(ltrim($_SERVER['PATH_INFO'], '/'));
+        }
+        
+        function base()
+        {
+            return rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
+        }
     }
     
     function get_categories(&$ctx)

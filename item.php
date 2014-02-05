@@ -2,7 +2,7 @@
 
     require_once 'lib.php';
     $context = new Context('data.db');
-    $item_id = $_GET['id'];
+    $item_id = $context->path_info();
 
 ?>
 <!DOCTYPE html>
