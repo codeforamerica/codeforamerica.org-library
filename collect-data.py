@@ -63,13 +63,13 @@ if __name__ == '__main__':
         tags = set(split(r', *', row.get('Tags/Keywords', '').strip()))
 
         item = dict(
-            category = row.get('Category', None),
-            title = row.get('Title'),
-            link = row.get('Link'),
-            program = row.get('Program'),
-            location = row.get('Location'),
-            date = row.get('Date'),
-            format = row.get('Format'),
+            category = row.get('Category', '') or None,
+            title = row.get('Title') or None,
+            link = row.get('Link') or None,
+            program = row.get('Program') or None,
+            location = row.get('Location') or None,
+            date = row.get('Date') or None,
+            format = row.get('Format') or None,
             contributors = contributors,
             contacts = contacts,
             tags = tags,
