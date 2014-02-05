@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS item_contacts;
 CREATE TABLE items
 (
     id          UNSIGNED INTEGER PRIMARY KEY,
+    category    TEXT,
     title       TEXT,
     link        TEXT,
     program     TEXT,
@@ -39,6 +40,7 @@ CREATE TABLE item_contacts
     person_id   UNSIGNED INTEGER
 );
 
+CREATE INDEX item_categories ON items (category);
 CREATE INDEX item_tag_items ON item_tags (item_id);
 CREATE INDEX item_tag_tags ON item_tags (tag);
 CREATE INDEX item_contributor_items ON item_contributors (item_id);

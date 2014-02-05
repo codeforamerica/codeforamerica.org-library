@@ -63,6 +63,7 @@ if __name__ == '__main__':
         tags = set(split(r', *', row.get('Tags/Keywords', '').strip()))
 
         item = dict(
+            category = row.get('Category', None),
             title = row.get('Title'),
             link = row.get('Link'),
             program = row.get('Program'),
@@ -89,10 +90,11 @@ if __name__ == '__main__':
         
         for (item_id, item) in enumerate(items):
             db.execute('''INSERT INTO items
-                          (id, title, link, program, location, date, format)
-                          VALUES (?, ?, ?, ?, ?, ?, ?)''',
-                       (item_id, item['title'], item['link'], item['program'],
-                        item['location'], item['date'], item['format'])
+                          (id, category, title, link, program, location, date, format)
+                          VALUES (?, ?, ?, ?, ?, ?, ?, ?)''',
+                       (item_id, item['category'], item['title'], item['link'],
+                        item['program'], item['location'], item['date'],
+                        item['format'])
                        )
             
             db.executemany('INSERT INTO item_tags (item_id, tag) VALUES (?, ?)',
