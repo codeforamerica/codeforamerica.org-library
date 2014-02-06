@@ -4,6 +4,13 @@
     require_once 'lib.php';
     $context = new Context('data.db');
     $cat_name = $context->path_info();
+    
+    if($cat_name) {
+        $title = "Library Items In Category “{$cat_name}”";
+    
+    } else {
+        $title = "Library Categories";
+    }
 
 ?>
 <html lang="en-us">

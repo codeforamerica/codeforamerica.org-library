@@ -4,6 +4,13 @@
     require_once 'lib.php';
     $context = new Context('data.db');
     $program_name = $context->path_info();
+    
+    if($program_name) {
+        $title = "Library Items In {$program_name} Program";
+    
+    } else {
+        $title = "Library Programs";
+    }
 
 ?>
 <html lang="en-us">
@@ -28,7 +35,7 @@
 	
     <? if($program_name) { ?>
         <header>
-            <h2>Items In Program <q><?= html($program_name) ?></q></h2>
+            <h2>Items In <?= html($program_name) ?> Program</h2>
         </header>
 
         <ul>

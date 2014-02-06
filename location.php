@@ -4,6 +4,13 @@
     require_once 'lib.php';
     $context = new Context('data.db');
     $location_name = $context->path_info();
+    
+    if($location_name) {
+        $title = "Library Items In {$location_name}";
+    
+    } else {
+        $title = "Library Locations";
+    }
 
 ?>
 <html lang="en-us">
@@ -28,7 +35,7 @@
 	
     <? if($location_name) { ?>
         <header>
-            <h2>Items In Location <q><?= html($location_name) ?></q></h2>
+            <h2>Items In <?= html($location_name) ?></h2>
         </header>
 
         <ul>

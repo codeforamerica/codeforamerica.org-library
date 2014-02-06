@@ -4,6 +4,13 @@
     require_once 'lib.php';
     $context = new Context('data.db');
     $tag_name = $context->path_info();
+    
+    if($tag_name) {
+        $title = "Library Items Tagged “{$tag_name}”";
+    
+    } else {
+        $title = "Library Tags";
+    }
 
 ?>
 <html lang="en-us">

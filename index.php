@@ -3,6 +3,7 @@
 
     require_once 'lib.php';
     $context = new Context('data.db');
+    $title = 'Library';
 
 ?>
 <html lang="en-us">

@@ -1,6 +1,6 @@
 <head>
     <meta charset="utf-8">
-    <title>Code for America</title>
+    <title><? if($title) { ?><?= html($title) ?> — <? } ?>Code for America</title>
     <link rel="stylesheet" type="text/css" href="//cloud.typography.com/6435252/678502/css/fonts.css" />
     <link rel="stylesheet" href="http://style.codeforamerica.org/style/css/main.css">
     <link rel="stylesheet" href="http://style.codeforamerica.org/style/css/layout.css" media="all and (min-width: 40em)">

@@ -4,6 +4,8 @@
     require_once 'lib.php';
     $context = new Context('data.db');
     $item_id = $context->path_info();
+    $item = get_item($context, $item_id);
+    $title = $item ? $item['title'] : '';
 
 ?>
 <html lang="en-us">
@@ -26,7 +28,7 @@
         </ul>
     </nav>
 	
-    <? if($item = get_item($context, $item_id)) { ?>
+    <? if($item) { ?>
         <div class="heading">
             <h2><?= html($item['title']) ?></h2>
         </div>
