@@ -39,12 +39,14 @@
                 <li><a href="<?= category_href($context, $item['category']) ?>"><?= html($item['category']) ?></a></li>
             </ul>
 
-            <h4 class="text-whisper layout-tight">Tags</h4>
-            <p>
+            <? if(!empty($item['tags'])) { ?>
+              <h4 class="text-whisper layout-tight">Tags</h4>
+              <p>
                 <? foreach($item['tags'] as $tag) { ?>
                     <a href="<?= tag_href($context, $tag) ?>"><?= html($tag) ?></a>,
                 <? } ?>
-            </p>
+              </p>
+            <? } ?>
         
             <? if(!empty($item['programs'])) { ?>
               <h4 class="text-whisper layout-tight">Programs</h4>
@@ -64,10 +66,12 @@
               </p>
             <? } ?>
         
-            <h4 class="text-whisper layout-tight">Date</h4>
-            <ul class="list-no-bullets text-whisper link-invert">
+            <? if(!empty($item['date'])) { ?>
+              <h4 class="text-whisper layout-tight">Date</h4>
+              <ul class="list-no-bullets text-whisper link-invert">
                 <li><?= html($item['date']) ?></li>
-            </ul>
+              </ul>
+            <? } ?>
         
         </div>
     
