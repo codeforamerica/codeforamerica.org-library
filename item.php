@@ -34,10 +34,9 @@
         </div>
     
         <div class="layout-minor">
-            <h3 class="text-prominent">Category</h3>
-            <ul class="list-no-bullets text-whisper link-invert">
-                <li><a href="<?= category_href($context, $item['category']) ?>"><?= html($item['category']) ?></a></li>
-            </ul>
+            <p>
+                <a href="<?= category_href($context, $item['category']) ?>"><?= html($item['category']) ?></a>
+            </p>
 
             <? if(!empty($item['tags'])) { ?>
               <h4 class="text-whisper layout-tight">Tags</h4>
