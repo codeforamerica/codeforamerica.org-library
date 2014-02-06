@@ -9,11 +9,14 @@ DROP TABLE IF EXISTS item_contacts;
 CREATE TABLE items
 (
     id          UNSIGNED INTEGER PRIMARY KEY,
+    slug        TEXT,
     category    TEXT,
     title       TEXT,
     link        TEXT,
     date        TEXT,
-    format      TEXT
+    format      TEXT,
+    summary_txt TEXT,
+    content_htm TEXT
 );
 
 CREATE TABLE item_tags
@@ -52,6 +55,7 @@ CREATE TABLE item_contacts
     person_id   UNSIGNED INTEGER
 );
 
+CREATE UNIQUE INDEX item_slugs ON items (slug);
 CREATE INDEX item_categories ON items (category);
 CREATE INDEX item_tag_items ON item_tags (item_id);
 CREATE INDEX item_tag_tags ON item_tags (tag);
