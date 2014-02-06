@@ -51,6 +51,36 @@
         return $tags;
     }
     
+    function get_programs(&$ctx)
+    {
+        $programs = array();
+        $query = 'SELECT DISTINCT program
+                  FROM items WHERE program IS NOT NULL AND program != ""
+                  ORDER BY program';
+        
+        foreach($ctx->dbh->query($query, PDO::FETCH_ASSOC) as $row)
+        {
+            $programs[] = $row['program'];
+        }
+        
+        return $programs;
+    }
+    
+    function get_locations(&$ctx)
+    {
+        $locations = array();
+        $query = 'SELECT DISTINCT location
+                  FROM items WHERE location IS NOT NULL AND location != ""
+                  ORDER BY location';
+        
+        foreach($ctx->dbh->query($query, PDO::FETCH_ASSOC) as $row)
+        {
+            $locations[] = $row['location'];
+        }
+        
+        return $locations;
+    }
+    
     function get_category_items(&$ctx, $category_name)
     {
         $items = array();
@@ -75,6 +105,38 @@
                           WHERE item_tags.tag = %s
                           ORDER BY items.title',
                          $ctx->dbh->quote($tag_name));
+        
+        foreach($ctx->dbh->query($query, PDO::FETCH_ASSOC) as $row)
+        {
+            $items[] = $row;
+        }
+        
+        return $items;
+    }
+    
+    function get_program_items(&$ctx, $program_name)
+    {
+        $items = array();
+        $query = sprintf('SELECT * FROM items
+                          WHERE program = %s
+                          ORDER BY title',
+                         $ctx->dbh->quote($program_name));
+        
+        foreach($ctx->dbh->query($query, PDO::FETCH_ASSOC) as $row)
+        {
+            $items[] = $row;
+        }
+        
+        return $items;
+    }
+    
+    function get_location_items(&$ctx, $location_name)
+    {
+        $items = array();
+        $query = sprintf('SELECT * FROM items
+                          WHERE location = %s
+                          ORDER BY title',
+                         $ctx->dbh->quote($location_name));
         
         foreach($ctx->dbh->query($query, PDO::FETCH_ASSOC) as $row)
         {

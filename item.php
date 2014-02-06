@@ -22,9 +22,9 @@
         <dt>Date</dt>
         <dd><?= htmlspecialchars($item['date']) ?></dd>
         <dt>Program</dt>
-        <dd><?= htmlspecialchars($item['program']) ?></dd>
+        <dd><a href="<?= $context->base() ?>/program/<?= urlencode($item['program']) ?>"><?= htmlspecialchars($item['program']) ?></a></dd>
         <dt>Location</dt>
-        <dd><?= htmlspecialchars($item['location']) ?></dd>
+        <dd><a href="<?= $context->base() ?>/location/<?= urlencode($item['location']) ?>"><?= htmlspecialchars($item['location']) ?></a></dd>
         <dt>Link</dt>
         <dd><a href="<?= htmlspecialchars($item['link']) ?>"><?= htmlspecialchars($item['link']) ?></a></dd>
         <dt>Format</dt>
