@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS items;
 DROP TABLE IF EXISTS item_tags;
+DROP TABLE IF EXISTS item_locations;
 DROP TABLE IF EXISTS people;
 DROP TABLE IF EXISTS item_contributors;
 DROP TABLE IF EXISTS item_contacts;
@@ -11,7 +12,6 @@ CREATE TABLE items
     title       TEXT,
     link        TEXT,
     program     TEXT,
-    location    TEXT,
     date        TEXT,
     format      TEXT
 );
@@ -20,6 +20,12 @@ CREATE TABLE item_tags
 (
     item_id UNSIGNED INTEGER,
     tag     TEXT
+);
+
+CREATE TABLE item_locations
+(
+    item_id     UNSIGNED INTEGER,
+    location    TEXT
 );
 
 CREATE TABLE people

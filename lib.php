@@ -70,7 +70,7 @@
     {
         $locations = array();
         $query = 'SELECT DISTINCT location
-                  FROM items WHERE location IS NOT NULL AND location != ""
+                  FROM item_locations WHERE location IS NOT NULL AND location != ""
                   ORDER BY location';
         
         foreach($ctx->dbh->query($query, PDO::FETCH_ASSOC) as $row)
@@ -133,9 +133,10 @@
     function get_location_items(&$ctx, $location_name)
     {
         $items = array();
-        $query = sprintf('SELECT * FROM items
-                          WHERE location = %s
-                          ORDER BY title',
+        $query = sprintf('SELECT items.* FROM item_locations
+                          LEFT JOIN items ON items.id = item_locations.item_id
+                          WHERE item_locations.location = %s
+                          ORDER BY items.title',
                          $ctx->dbh->quote($location_name));
         
         foreach($ctx->dbh->query($query, PDO::FETCH_ASSOC) as $row)
@@ -160,6 +161,20 @@
         return $tags;
     }
     
+    function get_item_locations(&$ctx, $item_id)
+    {
+        $locations = array();
+        $query = sprintf('SELECT location FROM item_locations WHERE item_id = %s ORDER BY location',
+                         $ctx->dbh->quote($item_id));
+        
+        foreach($ctx->dbh->query($query, PDO::FETCH_ASSOC) as $row)
+        {
+            $locations[] = $row['location'];
+        }
+        
+        return $locations;
+    }
+    
     function get_item(&$ctx, $item_id)
     {
         $query = sprintf('SELECT * FROM items WHERE id = %s LIMIT 1',
@@ -168,6 +183,7 @@
         foreach($ctx->dbh->query($query, PDO::FETCH_ASSOC) as $row)
         {
             $row['tags'] = get_item_tags($ctx, $item_id);
+            $row['locations'] = get_item_locations($ctx, $item_id);
         
             return $row;
         }

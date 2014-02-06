@@ -23,12 +23,18 @@
         <dd><?= htmlspecialchars($item['date']) ?></dd>
         <dt>Program</dt>
         <dd><a href="<?= $context->base() ?>/program/<?= urlencode($item['program']) ?>"><?= htmlspecialchars($item['program']) ?></a></dd>
-        <dt>Location</dt>
-        <dd><a href="<?= $context->base() ?>/location/<?= urlencode($item['location']) ?>"><?= htmlspecialchars($item['location']) ?></a></dd>
         <dt>Link</dt>
         <dd><a href="<?= htmlspecialchars($item['link']) ?>"><?= htmlspecialchars($item['link']) ?></a></dd>
         <dt>Format</dt>
         <dd><?= htmlspecialchars($item['format']) ?></dd>
+        <dt>Locations</dt>
+        <dd>
+            <ul>
+            <? foreach($item['locations'] as $location) { ?>
+                <li><a href="<?= $context->base() ?>/location/<?= urlencode($location) ?>"><?= htmlspecialchars($location) ?></a></li>
+            <? } ?>
+            </ul>
+        </dd>
         <dt>Tags</dt>
         <dd>
             <ul>
