@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
 
     require_once 'lib.php';
@@ -5,27 +6,56 @@
     $program_name = $context->path_info();
 
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8" />
-	<title>Library</title>
-</head>
+<html lang="en-us">
+
+<? include 'includes/head.php' ?>
+    
 <body>
-<? if($program_name) { ?>
-    <h1>Items In Program <q><?= html($program_name) ?></q></h1>
-    <ul>
-        <? foreach(get_program_items($context, $program_name) as $item) { ?>
-            <li><a href="<?= $context->base() ?>/item/<?= enc($item['id']) ?>"><?= html($item['title']) ?></a></li>
-        <? } ?>
-    </ul>
-<? } else { ?>
-    <h1>Programs</h1>
-    <ul>
-        <? foreach(get_programs($context) as $program) { ?>
-            <li><a href="<?= program_href($context, $program) ?>"><?= html($program) ?></a></li>
-        <? } ?>
-    </ul>
-<? } ?>
+
+<div class="js-container">
+
+<? include 'includes/header.php' ?>
+
+<main role="main">
+<div class="layout-semibreve">
+
+    <nav class="nav-breadcrumbs" role="navigation">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="<?= $context->base() ?>/">Library</a></li>
+        </ul>
+    </nav>
+	
+    <? if($program_name) { ?>
+        <header>
+            <h2>Items In Program <q><?= html($program_name) ?></q></h2>
+        </header>
+
+        <ul>
+            <? foreach(get_program_items($context, $program_name) as $item) { ?>
+                <li><a href="<?= $context->base() ?>/item/<?= enc($item['id']) ?>"><?= html($item['title']) ?></a></li>
+            <? } ?>
+        </ul>
+    <? } else { ?>
+        <header>
+            <h2>Programs</h2>
+        </header>
+
+        <ul>
+            <? foreach(get_programs($context) as $program) { ?>
+                <li><a href="<?= program_href($context, $program) ?>"><?= html($program) ?></a></li>
+            <? } ?>
+        </ul>
+    <? } ?>
+    
+</div>
+    
+<? include 'includes/footer.php' ?>
+
+</main>
+
+</div><!-- /.js-container -->
+<script src="http://style.codeforamerica.org/script/global.js"></script>
+
 </body>
 </html>
