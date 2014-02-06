@@ -2,7 +2,7 @@
 
     require_once 'lib.php';
     $context = new Context('data.db');
-    $cat_name = $context->path_info();
+    $tag_name = $context->path_info();
 
 ?>
 <!DOCTYPE html>
@@ -12,10 +12,20 @@
 	<title>Library</title>
 </head>
 <body>
-<ul>
-    <? foreach(get_tag_items($context, $cat_name) as $item) { ?>
-        <li><a href="<?= $context->base() ?>/item/<?= urlencode($item['id']) ?>"><?= htmlspecialchars($item['title']) ?></a></li>
-    <? } ?>
-</ul>
+<? if($tag_name) { ?>
+    <h1>Items Tagged <q><?= htmlspecialchars($tag_name) ?></q></h1>
+    <ul>
+        <? foreach(get_tag_items($context, $tag_name) as $item) { ?>
+            <li><a href="<?= $context->base() ?>/item/<?= urlencode($item['id']) ?>"><?= htmlspecialchars($item['title']) ?></a></li>
+        <? } ?>
+    </ul>
+<? } else { ?>
+    <h1>Tags</h1>
+    <ul>
+        <? foreach(get_tags($context) as $tag) { ?>
+            <li><a href="<?= $context->base() ?>/tag/<?= urlencode($tag) ?>"><?= htmlspecialchars($tag) ?></a></li>
+        <? } ?>
+    </ul>
+<? } ?>
 </body>
 </html>

@@ -84,6 +84,20 @@
         return $items;
     }
     
+    function get_item_tags(&$ctx, $item_id)
+    {
+        $tags = array();
+        $query = sprintf('SELECT tag FROM item_tags WHERE item_id = %s ORDER BY tag',
+                         $ctx->dbh->quote($item_id));
+        
+        foreach($ctx->dbh->query($query, PDO::FETCH_ASSOC) as $row)
+        {
+            $tags[] = $row['tag'];
+        }
+        
+        return $tags;
+    }
+    
     function get_item(&$ctx, $item_id)
     {
         $query = sprintf('SELECT * FROM items WHERE id = %s LIMIT 1',
@@ -91,6 +105,8 @@
         
         foreach($ctx->dbh->query($query, PDO::FETCH_ASSOC) as $row)
         {
+            $row['tags'] = get_item_tags($ctx, $item_id);
+        
             return $row;
         }
         
