@@ -13,17 +13,17 @@
 </head>
 <body>
 <? if($location_name) { ?>
-    <h1>Items In Location <q><?= htmlspecialchars($location_name) ?></q></h1>
+    <h1>Items In Location <q><?= html($location_name) ?></q></h1>
     <ul>
         <? foreach(get_location_items($context, $location_name) as $item) { ?>
-            <li><a href="<?= $context->base() ?>/item/<?= urlencode($item['id']) ?>"><?= htmlspecialchars($item['title']) ?></a></li>
+            <li><a href="<?= $context->base() ?>/item/<?= enc($item['id']) ?>"><?= html($item['title']) ?></a></li>
         <? } ?>
     </ul>
 <? } else { ?>
     <h1>Locations</h1>
     <ul>
         <? foreach(get_locations($context) as $location) { ?>
-            <li><a href="<?= $context->base() ?>/location/<?= urlencode($location) ?>"><?= htmlspecialchars($location) ?></a></li>
+            <li><a href="<?= $context->base() ?>/location/<?= enc($location) ?>"><?= html($location) ?></a></li>
         <? } ?>
     </ul>
 <? } ?>

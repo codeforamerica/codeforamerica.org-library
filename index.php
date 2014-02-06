@@ -14,13 +14,13 @@
 <h2>Categories</h2>
 <ul>
     <? foreach(get_categories($context) as $category) { ?>
-        <li><a href="<?= $context->base() ?>/category/<?= urlencode($category) ?>"><?= htmlspecialchars($category) ?></a></li>
+        <li><a href="<?= $context->base() ?>/category/<?= enc($category) ?>"><?= html($category) ?></a></li>
     <? } ?>
 </ul>
 <h2>Tags</h2>
 <ul>
     <? foreach(get_tags($context) as $tag) { ?>
-        <li><a href="<?= $context->base() ?>/tag/<?= urlencode($tag) ?>"><?= htmlspecialchars($tag) ?></a></li>
+        <li><a href="<?= $context->base() ?>/tag/<?= enc($tag) ?>"><?= html($tag) ?></a></li>
     <? } ?>
 </ul>
 </body>

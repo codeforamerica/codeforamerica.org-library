@@ -21,6 +21,16 @@
         }
     }
     
+    function html($string)
+    {
+        return htmlspecialchars($string);
+    }
+    
+    function enc($string)
+    {
+        return urlencode($string);
+    }
+    
     function get_categories(&$ctx)
     {
         $categories = array();

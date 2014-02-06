@@ -13,17 +13,17 @@
 </head>
 <body>
 <? if($cat_name) { ?>
-    <h1>Items In Category <q><?= htmlspecialchars($cat_name) ?></q></h1>
+    <h1>Items In Category <q><?= html($cat_name) ?></q></h1>
     <ul>
         <? foreach(get_category_items($context, $cat_name) as $item) { ?>
-            <li><a href="<?= $context->base() ?>/item/<?= urlencode($item['id']) ?>"><?= htmlspecialchars($item['title']) ?></a></li>
+            <li><a href="<?= $context->base() ?>/item/<?= enc($item['id']) ?>"><?= html($item['title']) ?></a></li>
         <? } ?>
     </ul>
 <? } else { ?>
     <h1>Categories</h1>
     <ul>
         <? foreach(get_categories($context) as $category) { ?>
-            <li><a href="<?= $context->base() ?>/category/<?= urlencode($category) ?>"><?= htmlspecialchars($category) ?></a></li>
+            <li><a href="<?= $context->base() ?>/category/<?= enc($category) ?>"><?= html($category) ?></a></li>
         <? } ?>
     </ul>
 <? } ?>

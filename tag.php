@@ -13,17 +13,17 @@
 </head>
 <body>
 <? if($tag_name) { ?>
-    <h1>Items Tagged <q><?= htmlspecialchars($tag_name) ?></q></h1>
+    <h1>Items Tagged <q><?= html($tag_name) ?></q></h1>
     <ul>
         <? foreach(get_tag_items($context, $tag_name) as $item) { ?>
-            <li><a href="<?= $context->base() ?>/item/<?= urlencode($item['id']) ?>"><?= htmlspecialchars($item['title']) ?></a></li>
+            <li><a href="<?= $context->base() ?>/item/<?= enc($item['id']) ?>"><?= html($item['title']) ?></a></li>
         <? } ?>
     </ul>
 <? } else { ?>
     <h1>Tags</h1>
     <ul>
         <? foreach(get_tags($context) as $tag) { ?>
-            <li><a href="<?= $context->base() ?>/tag/<?= urlencode($tag) ?>"><?= htmlspecialchars($tag) ?></a></li>
+            <li><a href="<?= $context->base() ?>/tag/<?= enc($tag) ?>"><?= html($tag) ?></a></li>
         <? } ?>
     </ul>
 <? } ?>

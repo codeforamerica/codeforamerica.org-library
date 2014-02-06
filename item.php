@@ -13,25 +13,25 @@
 </head>
 <body>
 <? if($item = get_item($context, $item_id)) { ?>
-    <h1><?= htmlspecialchars($item['title']) ?></h1>
+    <h1><?= html($item['title']) ?></h1>
     <dl>
         <dt>ID</dt>
-        <dd><?= htmlspecialchars($item['id']) ?></dd>
+        <dd><?= html($item['id']) ?></dd>
         <dt>Category</dt>
-        <dd><a href="<?= $context->base() ?>/category/<?= urlencode($item['category']) ?>"><?= htmlspecialchars($item['category']) ?></a></dd>
+        <dd><a href="<?= $context->base() ?>/category/<?= enc($item['category']) ?>"><?= html($item['category']) ?></a></dd>
         <dt>Date</dt>
-        <dd><?= htmlspecialchars($item['date']) ?></dd>
+        <dd><?= html($item['date']) ?></dd>
         <dt>Program</dt>
-        <dd><a href="<?= $context->base() ?>/program/<?= urlencode($item['program']) ?>"><?= htmlspecialchars($item['program']) ?></a></dd>
+        <dd><a href="<?= $context->base() ?>/program/<?= enc($item['program']) ?>"><?= html($item['program']) ?></a></dd>
         <dt>Link</dt>
-        <dd><a href="<?= htmlspecialchars($item['link']) ?>"><?= htmlspecialchars($item['link']) ?></a></dd>
+        <dd><a href="<?= html($item['link']) ?>"><?= html($item['link']) ?></a></dd>
         <dt>Format</dt>
-        <dd><?= htmlspecialchars($item['format']) ?></dd>
+        <dd><?= html($item['format']) ?></dd>
         <dt>Locations</dt>
         <dd>
             <ul>
             <? foreach($item['locations'] as $location) { ?>
-                <li><a href="<?= $context->base() ?>/location/<?= urlencode($location) ?>"><?= htmlspecialchars($location) ?></a></li>
+                <li><a href="<?= $context->base() ?>/location/<?= enc($location) ?>"><?= html($location) ?></a></li>
             <? } ?>
             </ul>
         </dd>
@@ -39,7 +39,7 @@
         <dd>
             <ul>
             <? foreach($item['tags'] as $tag) { ?>
-                <li><a href="<?= $context->base() ?>/tag/<?= urlencode($tag) ?>"><?= htmlspecialchars($tag) ?></a></li>
+                <li><a href="<?= $context->base() ?>/tag/<?= enc($tag) ?>"><?= html($tag) ?></a></li>
             <? } ?>
             </ul>
         </dd>
