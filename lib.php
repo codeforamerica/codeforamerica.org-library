@@ -85,7 +85,7 @@
     {
         $programs = array();
         $query = 'SELECT DISTINCT program
-                  FROM items WHERE program IS NOT NULL AND program != ""
+                  FROM item_programs WHERE program IS NOT NULL AND program != ""
                   ORDER BY program';
         
         foreach($ctx->dbh->query($query, PDO::FETCH_ASSOC) as $row)
@@ -147,9 +147,10 @@
     function get_program_items(&$ctx, $program_name)
     {
         $items = array();
-        $query = sprintf('SELECT * FROM items
-                          WHERE program = %s
-                          ORDER BY title',
+        $query = sprintf('SELECT items.* FROM item_programs
+                          LEFT JOIN items ON items.id = item_programs.item_id
+                          WHERE item_programs.program = %s
+                          ORDER BY items.title',
                          $ctx->dbh->quote($program_name));
         
         foreach($ctx->dbh->query($query, PDO::FETCH_ASSOC) as $row)
@@ -209,6 +210,22 @@
         return $locations;
     }
     
+    function get_item_programs(&$ctx, $item_id)
+    {
+        $programs = array();
+        $query = sprintf('SELECT program FROM item_programs
+                          WHERE item_id = %s AND program != ""
+                          ORDER BY program',
+                         $ctx->dbh->quote($item_id));
+        
+        foreach($ctx->dbh->query($query, PDO::FETCH_ASSOC) as $row)
+        {
+            $programs[] = $row['program'];
+        }
+        
+        return $programs;
+    }
+    
     function get_item(&$ctx, $item_id)
     {
         $query = sprintf('SELECT * FROM items WHERE id = %s LIMIT 1',
@@ -218,6 +235,7 @@
         {
             $row['tags'] = get_item_tags($ctx, $item_id);
             $row['locations'] = get_item_locations($ctx, $item_id);
+            $row['programs'] = get_item_programs($ctx, $item_id);
         
             return $row;
         }

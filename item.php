@@ -21,12 +21,18 @@
         <dd><a href="<?= category_href($context, $item['category']) ?>"><?= html($item['category']) ?></a></dd>
         <dt>Date</dt>
         <dd><?= html($item['date']) ?></dd>
-        <dt>Program</dt>
-        <dd><a href="<?= $context->base() ?>/program/<?= enc($item['program']) ?>"><?= html($item['program']) ?></a></dd>
         <dt>Link</dt>
         <dd><a href="<?= html($item['link']) ?>"><?= html($item['link']) ?></a></dd>
         <dt>Format</dt>
         <dd><?= html($item['format']) ?></dd>
+        <dt>Programs</dt>
+        <dd>
+            <ul>
+            <? foreach($item['programs'] as $program) { ?>
+                <li><a href="<?= program_href($context, $program) ?>"><?= html($program) ?></a></li>
+            <? } ?>
+            </ul>
+        </dd>
         <dt>Locations</dt>
         <dd>
             <ul>

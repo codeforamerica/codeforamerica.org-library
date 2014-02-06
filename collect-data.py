@@ -48,7 +48,6 @@ if __name__ == '__main__':
     for row in load_rows(environ['GDOCS_USERNAME'], environ['GDOCS_PASSWORD']):
 
         contributors = set()
-        locations = set()
         contacts = set()
         
         for name in split(r', *', row.get('Contributors', '').strip()):
@@ -63,17 +62,18 @@ if __name__ == '__main__':
         
         tags = set(split(r', *', row.get('Tags/Keywords', '').strip()))
         locations = set(split(r' *; *', row.get('Location', '').strip()))
+        programs = set(split(r', *', row.get('Program', '').strip()))
 
         item = dict(
             category = row.get('Category', '') or None,
             title = row.get('Title') or None,
             link = row.get('Link') or None,
-            program = row.get('Program') or None,
             date = row.get('Date') or None,
             format = row.get('Format') or None,
             contributors = contributors,
             contacts = contacts,
             locations = locations,
+            programs = programs,
             tags = tags,
             )
         
@@ -85,6 +85,7 @@ if __name__ == '__main__':
         db.execute('DELETE FROM items')
         db.execute('DELETE FROM item_tags')
         db.execute('DELETE FROM item_locations')
+        db.execute('DELETE FROM item_programs')
         db.execute('DELETE FROM item_contributors')
         db.execute('DELETE FROM item_contacts')
 
@@ -93,10 +94,10 @@ if __name__ == '__main__':
         
         for (item_id, item) in enumerate(items):
             db.execute('''INSERT INTO items
-                          (id, category, title, link, program, date, format)
-                          VALUES (?, ?, ?, ?, ?, ?, ?)''',
+                          (id, category, title, link, date, format)
+                          VALUES (?, ?, ?, ?, ?, ?)''',
                        (item_id, item['category'], item['title'], item['link'],
-                        item['program'], item['date'], item['format'])
+                        item['date'], item['format'])
                        )
             
             db.executemany('INSERT INTO item_tags (item_id, tag) VALUES (?, ?)',
@@ -104,6 +105,9 @@ if __name__ == '__main__':
             
             db.executemany('INSERT INTO item_locations (item_id, location) VALUES (?, ?)',
                            [(item_id, location) for location in item['locations']])
+            
+            db.executemany('INSERT INTO item_programs (item_id, program) VALUES (?, ?)',
+                           [(item_id, program) for program in item['programs']])
             
             db.executemany('INSERT INTO item_contributors (item_id, person_id) VALUES (?, ?)',
                            [(item_id, person_id) for person_id in item['contributors']])
