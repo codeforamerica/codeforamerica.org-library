@@ -23,7 +23,7 @@
     <h1>Categories</h1>
     <ul>
         <? foreach(get_categories($context) as $category) { ?>
-            <li><a href="<?= $context->base() ?>/category/<?= enc($category) ?>"><?= html($category) ?></a></li>
+            <li><a href="<?= category_href($context, $category) ?>"><?= html($category) ?></a></li>
         <? } ?>
     </ul>
 <? } ?>

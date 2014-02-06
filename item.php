@@ -18,7 +18,7 @@
         <dt>ID</dt>
         <dd><?= html($item['id']) ?></dd>
         <dt>Category</dt>
-        <dd><a href="<?= $context->base() ?>/category/<?= enc($item['category']) ?>"><?= html($item['category']) ?></a></dd>
+        <dd><a href="<?= category_href($context, $item['category']) ?>"><?= html($item['category']) ?></a></dd>
         <dt>Date</dt>
         <dd><?= html($item['date']) ?></dd>
         <dt>Program</dt>
@@ -31,7 +31,7 @@
         <dd>
             <ul>
             <? foreach($item['locations'] as $location) { ?>
-                <li><a href="<?= $context->base() ?>/location/<?= enc($location) ?>"><?= html($location) ?></a></li>
+                <li><a href="<?= location_href($context, $location) ?>"><?= html($location) ?></a></li>
             <? } ?>
             </ul>
         </dd>
@@ -39,7 +39,7 @@
         <dd>
             <ul>
             <? foreach($item['tags'] as $tag) { ?>
-                <li><a href="<?= $context->base() ?>/tag/<?= enc($tag) ?>"><?= html($tag) ?></a></li>
+                <li><a href="<?= tag_href($context, $tag) ?>"><?= html($tag) ?></a></li>
             <? } ?>
             </ul>
         </dd>

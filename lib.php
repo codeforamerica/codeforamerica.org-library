@@ -31,6 +31,26 @@
         return urlencode($string);
     }
     
+    function category_href(&$ctx, $category)
+    {
+        return $ctx->base() . '/category/' . urlencode($category);
+    }
+    
+    function tag_href(&$ctx, $tag)
+    {
+        return $ctx->base() . '/tag/' . urlencode($tag);
+    }
+    
+    function program_href(&$ctx, $program)
+    {
+        return $ctx->base() . '/program/' . urlencode($program);
+    }
+    
+    function location_href(&$ctx, $location)
+    {
+        return $ctx->base() . '/location/' . urlencode($location);
+    }
+    
     function get_categories(&$ctx)
     {
         $categories = array();
@@ -160,7 +180,9 @@
     function get_item_tags(&$ctx, $item_id)
     {
         $tags = array();
-        $query = sprintf('SELECT tag FROM item_tags WHERE item_id = %s ORDER BY tag',
+        $query = sprintf('SELECT tag FROM item_tags
+                          WHERE item_id = %s AND tag != ""
+                          ORDER BY tag',
                          $ctx->dbh->quote($item_id));
         
         foreach($ctx->dbh->query($query, PDO::FETCH_ASSOC) as $row)
@@ -174,7 +196,9 @@
     function get_item_locations(&$ctx, $item_id)
     {
         $locations = array();
-        $query = sprintf('SELECT location FROM item_locations WHERE item_id = %s ORDER BY location',
+        $query = sprintf('SELECT location FROM item_locations
+                          WHERE item_id = %s AND location != ""
+                          ORDER BY location',
                          $ctx->dbh->quote($item_id));
         
         foreach($ctx->dbh->query($query, PDO::FETCH_ASSOC) as $row)

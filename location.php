@@ -23,7 +23,7 @@
     <h1>Locations</h1>
     <ul>
         <? foreach(get_locations($context) as $location) { ?>
-            <li><a href="<?= $context->base() ?>/location/<?= enc($location) ?>"><?= html($location) ?></a></li>
+            <li><a href="<?= location_href($context, $location) ?>"><?= html($location) ?></a></li>
         <? } ?>
     </ul>
 <? } ?>

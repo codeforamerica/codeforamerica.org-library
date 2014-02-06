@@ -23,7 +23,7 @@
     <h1>Tags</h1>
     <ul>
         <? foreach(get_tags($context) as $tag) { ?>
-            <li><a href="<?= $context->base() ?>/tag/<?= enc($tag) ?>"><?= html($tag) ?></a></li>
+            <li><a href="<?= tag_href($context, $tag) ?>"><?= html($tag) ?></a></li>
         <? } ?>
     </ul>
 <? } ?>

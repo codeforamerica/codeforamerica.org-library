@@ -23,7 +23,7 @@
     <h1>Programs</h1>
     <ul>
         <? foreach(get_programs($context) as $program) { ?>
-            <li><a href="<?= $context->base() ?>/program/<?= enc($program) ?>"><?= html($program) ?></a></li>
+            <li><a href="<?= program_href($context, $program) ?>"><?= html($program) ?></a></li>
         <? } ?>
     </ul>
 <? } ?>
