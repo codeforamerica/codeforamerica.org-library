@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS item_contacts;
 
 CREATE TABLE items
 (
-    id          UNSIGNED INTEGER PRIMARY KEY,
+    id          TEXT(16) PRIMARY KEY,
     slug        TEXT,
     category    TEXT,
     title       TEXT,
@@ -21,19 +21,19 @@ CREATE TABLE items
 
 CREATE TABLE item_tags
 (
-    item_id UNSIGNED INTEGER,
+    item_id TEXT(16),
     tag     TEXT
 );
 
 CREATE TABLE item_locations
 (
-    item_id     UNSIGNED INTEGER,
+    item_id     TEXT(16),
     location    TEXT
 );
 
 CREATE TABLE item_programs
 (
-    item_id     UNSIGNED INTEGER,
+    item_id     TEXT(16),
     program     TEXT
 );
 
@@ -45,13 +45,13 @@ CREATE TABLE people
 
 CREATE TABLE item_contributors
 (
-    item_id     UNSIGNED INTEGER,
+    item_id     TEXT(16),
     person_id   UNSIGNED INTEGER
 );
 
 CREATE TABLE item_contacts
 (
-    item_id     UNSIGNED INTEGER,
+    item_id     TEXT(16),
     person_id   UNSIGNED INTEGER
 );
 
