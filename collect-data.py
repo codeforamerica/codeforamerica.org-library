@@ -130,3 +130,5 @@ if __name__ == '__main__':
                 raise
             
         db.execute('VACUUM')
+    
+    print 'Finished.'
