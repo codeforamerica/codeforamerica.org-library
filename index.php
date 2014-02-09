@@ -40,7 +40,7 @@
         <h3>Tags</h3>
         <ul>
             <? foreach(get_tags($context) as $tag) { ?>
-                <li><a href="<?= tag_href($context, $tag) ?>"><?= html($tag) ?></a></li>
+                <li><?= tag_anchor($context, $tag) ?></li>
             <? } ?>
         </ul>
     </div>

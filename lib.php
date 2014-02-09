@@ -101,6 +101,17 @@
         return $html;
     }
     
+    function tag_anchor(&$ctx, $tag)
+    {
+        $href = tag_href($ctx, $tag['tag']);
+        $html = sprintf('<a href="%s">%s</a>', html($href), html($tag['tag']));
+        
+        if(is_numeric($tag['items']))
+            $html .= " ({$tag['items']})";
+        
+        return $html;
+    }
+    
     function embed_html($item)
     {
         if(preg_match('#^https?://(www.)?youtube.com/#', $item['link']))
@@ -154,16 +165,12 @@
     
     function get_tags(&$ctx)
     {
-        $tags = array();
-
-        $query = 'SELECT DISTINCT tag
+        $query = 'SELECT tag, COUNT(item_id) AS items
                   FROM item_tags WHERE tag IS NOT NULL AND tag != ""
+                  GROUP BY tag
                   ORDER BY tag';
         
-        foreach($ctx->select($query) as $row)
-        {
-            $tags[] = $row['tag'];
-        }
+        $tags = $ctx->select($query);
         
         return $tags;
     }
@@ -249,16 +256,11 @@
     
     function get_item_tags(&$ctx, $item_id)
     {
-        $tags = array();
-
         $query = 'SELECT tag FROM item_tags
                   WHERE item_id = %s AND tag != ""
                   ORDER BY tag';
         
-        foreach($ctx->selectf($query, $item_id) as $row)
-        {
-            $tags[] = $row['tag'];
-        }
+        $tags = $ctx->selectf($query, $item_id);
         
         return $tags;
     }

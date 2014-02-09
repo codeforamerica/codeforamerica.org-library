@@ -88,7 +88,7 @@
               <h4 class="text-whisper layout-tight">Tags</h4>
               <p>
                 <? foreach($item['tags'] as $tag) { ?>
-                    <a href="<?= tag_href($context, $tag) ?>"><?= html($tag) ?></a>,
+                    <?= tag_anchor($context, $tag) ?>,
                 <? } ?>
               </p>
             <? } ?>
