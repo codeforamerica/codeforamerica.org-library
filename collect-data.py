@@ -107,7 +107,7 @@ if __name__ == '__main__':
 
             # Generate an item ID based on five fields.
             fields = 'category title link date format'.split()
-            value = repr([(k, item[k]) for k in fields])
+            value = repr([(k, item[k]) for k in sorted(fields)])
             item_id = sha1(value).hexdigest()[:16]
         
             try:
