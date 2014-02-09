@@ -22,6 +22,35 @@
     
 <body>
 
+<style type="text/css">
+
+   /*
+    * CSS for scalable video player from http://stackoverflow.com/a/17465040
+    */
+    .video-embed
+    {
+      max-width: 100%;
+      margin: 0px auto;
+    }
+
+    .video-embed > div
+    {
+      position: relative;
+      padding-bottom: 75%; /* - aspect ratio */
+      height: 0px;
+    }
+
+    .video-embed iframe
+    {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
+    }
+
+</style>
+
 <div class="js-container">
 
 <? include 'includes/header.php' ?>
@@ -101,6 +130,10 @@
         </div>
     
         <div class="layout-major">
+            <? if($item['format'] == 'Video') { ?>
+                <?= embed_html($item) ?>
+            <? } ?>
+        
             <dl>
                 <dt>ID</dt>
                 <dd><?= html($item['id']) ?></dd>

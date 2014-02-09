@@ -82,6 +82,41 @@
         return '#'; //$ctx->base() . '/person/' . urlencode($person['name']);
     }
     
+    function embed_html($item)
+    {
+        if(preg_match('#^https?://(www.)?youtube.com/#', $item['link']))
+        {
+            if(preg_match('#\bv=(\w[\-\w]+\w)\b#', $item['link'], $m)) {
+                $id = $m[1];
+
+            } else {
+                return;
+            }
+            
+            $url = "//www.youtube.com/embed/{$id}";
+            $url .= preg_match('#\blist=(\w[\-\w]+\w)\b#', $item['link'], $m)
+                ? "?list={$m[1]}" : '';
+            
+            return "
+                <div class='youtube video-embed'>
+                  <div><iframe src='{$url}' frameborder='0' allowfullscreen></iframe></div>
+                </div>
+                ";
+        }
+        
+        if(preg_match('#^https?://(www.)?vimeo.com(/album/\w+/video)?/(\w+)$#', $item['link'], $m))
+        {
+            $id = $m[3];
+            $url = "//player.vimeo.com/video/{$id}?title=0&amp;byline=0&amp;portrait=0";
+        
+            return "
+                <div class='vimeo video-embed'>
+                  <div><iframe src='{$url}' frameborder='0' allowfullscreen></iframe></div>
+                </div>
+                ";
+        }
+    }
+    
     function get_categories(&$ctx)
     {
         $categories = array();
