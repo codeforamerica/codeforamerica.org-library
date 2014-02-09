@@ -72,7 +72,7 @@
     
         <div class="layout-minor">
             <p>
-                <a href="<?= category_href($context, $item['category']) ?>"><?= html($item['category']) ?></a>
+                <?= category_anchor($context, $item) ?></a>
             </p>
 
             <? if(!empty($item['contributors'])) { ?>

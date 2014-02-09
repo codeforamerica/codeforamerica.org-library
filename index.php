@@ -31,7 +31,7 @@
         <h3>Categories</h3>
         <ul>
             <? foreach(get_categories($context) as $category) { ?>
-                <li><a href="<?= category_href($context, $category) ?>"><?= html($category) ?></a></li>
+                <li><?= category_anchor($context, $category) ?></li>
             <? } ?>
         </ul>
     </div>

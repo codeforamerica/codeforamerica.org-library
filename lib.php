@@ -101,6 +101,17 @@
         return $html;
     }
     
+    function category_anchor(&$ctx, $category)
+    {
+        $href = category_href($ctx, $category['category']);
+        $html = sprintf('<a href="%s">%s</a>', html($href), html($category['category']));
+        
+        if(is_numeric($category['items']))
+            $html .= " ({$category['items']})";
+        
+        return $html;
+    }
+    
     function tag_anchor(&$ctx, $tag)
     {
         $href = tag_href($ctx, $tag['tag']);
@@ -149,16 +160,12 @@
     
     function get_categories(&$ctx)
     {
-        $categories = array();
-
-        $query = 'SELECT DISTINCT category
+        $query = 'SELECT category, COUNT(id) AS items
                   FROM items WHERE category IS NOT NULL AND category != ""
+                  GROUP BY category
                   ORDER BY category';
         
-        foreach($ctx->select($query) as $row)
-        {
-            $categories[] = $row['category'];
-        }
+        $categories = $ctx->select($query);
         
         return $categories;
     }
