@@ -7,6 +7,7 @@ Assumes that scheme from createdb.sql is already in-place.
 
 '''
 from sys import argv
+from time import time
 from os import environ
 from re import split
 from itertools import chain
@@ -46,7 +47,8 @@ if __name__ == '__main__':
     (dbname, ) = argv[1:]
     items, people = [], []
     
-    print 'Downloading...'
+    print 'Downloading...',
+    start_time = time()
     
     for row in load_rows(environ['GDOCS_USERNAME'], environ['GDOCS_PASSWORD']):
 
@@ -88,7 +90,10 @@ if __name__ == '__main__':
         
         items.append(item)
     
-    print 'Saving', len(items), 'items...'
+    print '%.3f seconds' % (time() - start_time)
+
+    print 'Saving', len(items), 'items...',
+    start_time = time()
     
     with connect(dbname) as db:
 
@@ -141,4 +146,4 @@ if __name__ == '__main__':
             
         db.execute('VACUUM')
     
-    print 'Finished.'
+    print '%.3f seconds' % (time() - start_time)
