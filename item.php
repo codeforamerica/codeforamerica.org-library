@@ -46,6 +46,15 @@
                 <a href="<?= category_href($context, $item['category']) ?>"><?= html($item['category']) ?></a>
             </p>
 
+            <? if(!empty($item['contributors'])) { ?>
+              <h4 class="text-whisper layout-tight">Contributors</h4>
+              <p>
+                <? foreach($item['contributors'] as $contributor) { ?>
+                    <a href="<?= person_href($context, $contributor) ?>"><?= html($contributor['name']) ?></a>,
+                <? } ?>
+              </p>
+            <? } ?>
+        
             <? if(!empty($item['tags'])) { ?>
               <h4 class="text-whisper layout-tight">Tags</h4>
               <p>
@@ -78,6 +87,15 @@
               <ul class="list-no-bullets text-whisper link-invert">
                 <li><?= html($item['date']) ?></li>
               </ul>
+            <? } ?>
+        
+            <? if(!empty($item['contacts'])) { ?>
+              <h4 class="text-whisper layout-tight">Contacts</h4>
+              <p>
+                <? foreach($item['contacts'] as $contact) { ?>
+                    <a href="<?= person_href($context, $contact) ?>"><?= html($contact['name']) ?></a>,
+                <? } ?>
+              </p>
             <? } ?>
         
         </div>

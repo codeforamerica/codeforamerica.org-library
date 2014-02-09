@@ -77,6 +77,11 @@
         return $ctx->base() . '/location/' . urlencode($location);
     }
     
+    function person_href(&$ctx, $person)
+    {
+        return '#'; //$ctx->base() . '/person/' . urlencode($person['name']);
+    }
+    
     function get_categories(&$ctx)
     {
         $categories = array();
@@ -236,6 +241,29 @@
         return $programs;
     }
     
+    function get_item_contacts(&$ctx, $item_id)
+    {
+        $query = 'SELECT people.* FROM item_contacts
+                  LEFT JOIN people ON people.id = item_contacts.person_id
+                  WHERE item_id = %s';
+        
+        
+        $contacts = $ctx->selectf($query, $item_id);
+        
+        return $contacts;
+    }
+    
+    function get_item_contributors(&$ctx, $item_id)
+    {
+        $query = 'SELECT people.* FROM item_contributors
+                  LEFT JOIN people ON people.id = item_contributors.person_id
+                  WHERE item_id = %s';
+        
+        $contributors = $ctx->selectf($query, $item_id);
+        
+        return $contributors;
+    }
+    
     function get_item(&$ctx, $name)
     {
         $query = 'SELECT * FROM items
@@ -244,9 +272,11 @@
         
         foreach($ctx->selectf($query, $name, $name, $name) as $row)
         {
-            $row['tags'] = get_item_tags($ctx, $item['id']);
-            $row['locations'] = get_item_locations($ctx, $item['id']);
-            $row['programs'] = get_item_programs($ctx, $item['id']);
+            $row['tags'] = get_item_tags($ctx, $row['id']);
+            $row['locations'] = get_item_locations($ctx, $row['id']);
+            $row['programs'] = get_item_programs($ctx, $row['id']);
+            $row['contacts'] = get_item_contacts($ctx, $row['id']);
+            $row['contributors'] = get_item_contributors($ctx, $row['id']);
         
             return $row;
         }
