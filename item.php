@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 
     require_once 'lib.php';
@@ -6,8 +5,17 @@
     $item_name = $context->path_info();
     $item = get_item($context, $item_name);
     $title = $item ? $item['title'] : '';
+    
+    // Redirect to the slug version if possible.
+    if($item['slug'] && $item_name != $item['slug'])
+    {
+        header('HTTP/1.1 301');
+        header('Location: '.item_href($context, $item));
+        exit();
+    }
 
 ?>
+<!DOCTYPE html>
 <html lang="en-us">
 
 <? include 'includes/head.php' ?>
