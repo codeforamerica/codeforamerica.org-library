@@ -18,7 +18,6 @@
 
 <main role="main">
 <div class="layout-semibreve">
-
     <nav class="nav-breadcrumbs" role="navigation">
         <ul>
             <li><a href="/">Home</a></li>
@@ -26,30 +25,25 @@
         </ul>
     </nav>
 	
-    <header>
-        <h2>Library</h2>
-    </header>
-
-    <header>
-        <h3>Categories</h3>
-    </header>
-
-    <ul>
-        <? foreach(get_categories($context) as $category) { ?>
-            <li><a href="<?= category_href($context, $category) ?>"><?= html($category) ?></a></li>
-        <? } ?>
-    </ul>
-
-    <header>
-        <h3>Tags</h3>
-    </header>
-
-    <ul>
-        <? foreach(get_tags($context) as $tag) { ?>
-            <li><a href="<?= tag_href($context, $tag) ?>"><?= html($tag) ?></a></li>
-        <? } ?>
-    </ul>
+    <h2>Library</h2>
     
+    <div class="layout-minim">
+        <h3>Categories</h3>
+        <ul>
+            <? foreach(get_categories($context) as $category) { ?>
+                <li><a href="<?= category_href($context, $category) ?>"><?= html($category) ?></a></li>
+            <? } ?>
+        </ul>
+    </div>
+
+    <div class="layout-minim">
+        <h3>Tags</h3>
+        <ul>
+            <? foreach(get_tags($context) as $tag) { ?>
+                <li><a href="<?= tag_href($context, $tag) ?>"><?= html($tag) ?></a></li>
+            <? } ?>
+        </ul>
+    </div>
 </div>
     
 <? include 'includes/footer.php' ?>
