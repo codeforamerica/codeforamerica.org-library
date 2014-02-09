@@ -51,6 +51,12 @@
         return urlencode($string);
     }
     
+    function item_href(&$ctx, $item)
+    {
+        $name = $item['slug'] ? $item['slug'] : $item['id'];
+        return $ctx->base() . '/item/' . urlencode($name);
+    }
+    
     function category_href(&$ctx, $category)
     {
         return $ctx->base() . '/category/' . urlencode($category);
@@ -230,15 +236,17 @@
         return $programs;
     }
     
-    function get_item(&$ctx, $item_id)
+    function get_item(&$ctx, $name)
     {
-        $query = 'SELECT * FROM items WHERE id = %s LIMIT 1';
+        $query = 'SELECT * FROM items
+                  WHERE id = %s OR slug = %s
+                  ORDER BY CAST(slug = %s AS INT) DESC';
         
-        foreach($ctx->selectf($query, $item_id) as $row)
+        foreach($ctx->selectf($query, $name, $name, $name) as $row)
         {
-            $row['tags'] = get_item_tags($ctx, $item_id);
-            $row['locations'] = get_item_locations($ctx, $item_id);
-            $row['programs'] = get_item_programs($ctx, $item_id);
+            $row['tags'] = get_item_tags($ctx, $item['id']);
+            $row['locations'] = get_item_locations($ctx, $item['id']);
+            $row['programs'] = get_item_programs($ctx, $item['id']);
         
             return $row;
         }

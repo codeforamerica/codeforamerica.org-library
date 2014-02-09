@@ -3,8 +3,8 @@
 
     require_once 'lib.php';
     $context = new Context('data.db');
-    $item_id = $context->path_info();
-    $item = get_item($context, $item_id);
+    $item_name = $context->path_info();
+    $item = get_item($context, $item_name);
     $title = $item ? $item['title'] : '';
 
 ?>

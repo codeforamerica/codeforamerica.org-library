@@ -40,7 +40,7 @@
 
         <ul>
             <? foreach(get_program_items($context, $program_name) as $item) { ?>
-                <li><a href="<?= $context->base() ?>/item/<?= enc($item['id']) ?>"><?= html($item['title']) ?></a></li>
+                <li><a href="<?= item_href($context, $item) ?>"><?= html($item['title']) ?></a></li>
             <? } ?>
         </ul>
     <? } else { ?>
