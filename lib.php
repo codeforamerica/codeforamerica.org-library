@@ -82,6 +82,25 @@
         return '#'; //$ctx->base() . '/person/' . urlencode($person['name']);
     }
     
+    function item_anchor(&$ctx, $item)
+    {
+        $href = item_href($ctx, $item);
+        $html = sprintf('<a href="%s">%s</a>', html($href), html($item['title']));
+        
+        $extra = array();
+        
+        if($item['format'])
+            $extra[] = $item['format'];
+        
+        if($item['date'])
+            $extra[] = $item['date'];
+        
+        if($extra)
+            $html .= ' ('.implode(', ', $extra).')';
+        
+        return $html;
+    }
+    
     function embed_html($item)
     {
         if(preg_match('#^https?://(www.)?youtube.com/#', $item['link']))
