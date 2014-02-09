@@ -12,6 +12,7 @@ from re import split
 from itertools import chain
 from multiprocessing import Pool
 from sqlite3 import connect, IntegrityError
+from hashlib import sha1
 
 import gspread
 
@@ -82,6 +83,9 @@ if __name__ == '__main__':
             tags = tags,
             )
         
+        if not item['title']:
+           continue 
+        
         items.append(item)
     
     print 'Saving', len(items), 'items...'
@@ -99,7 +103,13 @@ if __name__ == '__main__':
         db.executemany('INSERT INTO people (id, name) VALUES (?, ?)',
                        list(enumerate(people)))
         
-        for (item_id, item) in enumerate(items):
+        for item in items:
+
+            # Generate an item ID based on five fields.
+            fields = 'category title link date format'.split()
+            value = repr([(k, item[k]) for k in fields])
+            item_id = sha1(value).hexdigest()[:16]
+        
             try:
                 db.execute('''INSERT INTO items
                               (id, slug, category, title, link, date, format, summary_txt, content_htm)
