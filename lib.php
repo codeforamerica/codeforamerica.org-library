@@ -346,20 +346,21 @@
     {
         $query = 'SELECT * FROM items
                   WHERE id = %s OR slug = %s
-                  ORDER BY CAST(slug = %s AS INT) DESC';
+                  ORDER BY CAST(slug = %s AS INT) ASC';
         
-        foreach($ctx->selectf($query, $name, $name, $name) as $row)
-        {
-            $row['tags'] = get_item_tags($ctx, $row['id']);
-            $row['locations'] = get_item_locations($ctx, $row['id']);
-            $row['programs'] = get_item_programs($ctx, $row['id']);
-            $row['contacts'] = get_item_contacts($ctx, $row['id']);
-            $row['contributors'] = get_item_contributors($ctx, $row['id']);
+        // Take the last item, because it's the sluggiest.
+        $item = end($ctx->selectf($query, $name, $name, $name));
         
-            return $row;
-        }
+        if(!$item)
+            return null;
         
-        return null;
+        $item['tags'] = get_item_tags($ctx, $item['id']);
+        $item['locations'] = get_item_locations($ctx, $item['id']);
+        $item['programs'] = get_item_programs($ctx, $item['id']);
+        $item['contacts'] = get_item_contacts($ctx, $item['id']);
+        $item['contributors'] = get_item_contributors($ctx, $item['id']);
+    
+        return $item;
     }
 
 ?>
