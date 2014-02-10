@@ -5,6 +5,9 @@ tables, replace with new data from Google spreadsheet "CfA Library Taxonomy".
 
 Assumes that scheme from createdb.sql is already in-place.
 
+GDocs authentication is pulled from two environment variables, GDOCS_USERNAME
+and GDOCS_PASSWORD. We use a single-purpose Google account with read-only access
+to run the updates.
 '''
 from sys import argv
 from time import time
