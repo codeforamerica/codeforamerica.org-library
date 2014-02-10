@@ -63,7 +63,7 @@
         $html = sprintf('<a href="%s">%s</a>', html($href), html($person['name']));
         
         if(is_numeric($person['items']) && $person['items'] > 1)
-            $html .= " ({$person['items']})";
+            $html .= "&nbsp;({$person['items']})";
         
         return $html;
     }
@@ -92,8 +92,8 @@
         $href = $ctx->base() . '/category/' . urlencode($category['category']);
         $html = sprintf('<a href="%s">%s</a>', html($href), html($category['category']));
         
-        if(is_numeric($category['items']))
-            $html .= " ({$category['items']})";
+        if(is_numeric($category['items']) && $category['items'] > 1)
+            $html .= "&nbsp;({$category['items']})";
         
         return $html;
     }
@@ -103,8 +103,8 @@
         $href = $ctx->base() . '/tag/' . urlencode($tag['tag']);
         $html = sprintf('<a href="%s">%s</a>', html($href), html($tag['tag']));
         
-        if(is_numeric($tag['items']))
-            $html .= " ({$tag['items']})";
+        if(is_numeric($tag['items']) && $tag['items'] > 1)
+            $html .= "&nbsp;({$tag['items']})";
         
         return $html;
     }
@@ -114,8 +114,8 @@
         $href = $ctx->base() . '/program/' . urlencode($program['program']);
         $html = sprintf('<a href="%s">%s</a>', html($href), html($program['program']));
         
-        if(is_numeric($program['items']))
-            $html .= " ({$program['items']})";
+        if(is_numeric($program['items']) && $program['items'] > 1)
+            $html .= "&nbsp;({$program['items']})";
         
         return $html;
     }
@@ -125,8 +125,8 @@
         $href = $ctx->base() . '/location/' . urlencode($location['location']);
         $html = sprintf('<a href="%s">%s</a>', html($href), html($location['location']));
         
-        if(is_numeric($location['items']))
-            $html .= " ({$location['items']})";
+        if(is_numeric($location['items']) && $location['items'] > 1)
+            $html .= "&nbsp;({$location['items']})";
         
         return $html;
     }
@@ -178,7 +178,7 @@
         $query = 'SELECT category, COUNT(id) AS items
                   FROM items WHERE category IS NOT NULL AND category != ""
                   GROUP BY category
-                  ORDER BY category';
+                  ORDER BY category COLLATE NOCASE';
         
         $categories = $ctx->select($query);
         
@@ -190,7 +190,7 @@
         $query = 'SELECT tag, COUNT(item_id) AS items
                   FROM item_tags WHERE tag IS NOT NULL AND tag != ""
                   GROUP BY tag
-                  ORDER BY tag';
+                  ORDER BY tag COLLATE NOCASE';
         
         $tags = $ctx->select($query);
         
@@ -202,7 +202,7 @@
         $query = 'SELECT program, COUNT(item_id) AS items
                   FROM item_programs WHERE program IS NOT NULL AND program != ""
                   GROUP BY program
-                  ORDER BY program';
+                  ORDER BY program COLLATE NOCASE';
         
         $programs = $ctx->select($query);
         
@@ -214,7 +214,7 @@
         $query = 'SELECT location, COUNT(item_id) AS items
                   FROM item_locations WHERE location IS NOT NULL AND location != ""
                   GROUP BY location
-                  ORDER BY location';
+                  ORDER BY location COLLATE NOCASE';
         
         $locations = $ctx->select($query);
         
@@ -252,7 +252,7 @@
     {
         $query = 'SELECT * FROM items
                   WHERE category = %s
-                  ORDER BY title';
+                  ORDER BY title COLLATE NOCASE';
         
         $items = $ctx->selectf($query, $category_name);
         
@@ -264,7 +264,7 @@
         $query = 'SELECT items.* FROM item_tags
                   LEFT JOIN items ON items.id = item_tags.item_id
                   WHERE item_tags.tag = %s
-                  ORDER BY items.title';
+                  ORDER BY items.title COLLATE NOCASE';
         
         $items = $ctx->selectf($query, $tag_name);
         
@@ -276,7 +276,7 @@
         $query = 'SELECT items.* FROM item_programs
                   LEFT JOIN items ON items.id = item_programs.item_id
                   WHERE item_programs.program = %s
-                  ORDER BY items.title';
+                  ORDER BY items.title COLLATE NOCASE';
         
         $items = $ctx->selectf($query, $program_name);
         
@@ -288,7 +288,7 @@
         $query = 'SELECT items.* FROM item_locations
                   LEFT JOIN items ON items.id = item_locations.item_id
                   WHERE item_locations.location = %s
-                  ORDER BY items.title';
+                  ORDER BY items.title COLLATE NOCASE';
         
         $items = $ctx->selectf($query, $location_name);
         
@@ -320,7 +320,7 @@
     {
         $query = 'SELECT tag FROM item_tags
                   WHERE item_id = %s AND tag != ""
-                  ORDER BY tag';
+                  ORDER BY tag COLLATE NOCASE';
         
         $tags = $ctx->selectf($query, $item_id);
         
@@ -331,7 +331,7 @@
     {
         $query = 'SELECT location FROM item_locations
                   WHERE item_id = %s AND location != ""
-                  ORDER BY location';
+                  ORDER BY location COLLATE NOCASE';
         
         $locations = $ctx->selectf($query, $item_id);
         
@@ -342,7 +342,7 @@
     {
         $query = 'SELECT program FROM item_programs
                   WHERE item_id = %s AND program != ""
-                  ORDER BY program';
+                  ORDER BY program COLLATE NOCASE';
         
         $programs = $ctx->selectf($query, $item_id);
         
