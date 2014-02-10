@@ -16,7 +16,9 @@ CREATE TABLE items
     date        TEXT,
     format      TEXT,
     summary_txt TEXT,
-    content_htm TEXT
+    content_htm TEXT,
+    thumb_src   TEXT,
+    embed_href  TEXT
 );
 
 CREATE TABLE item_tags

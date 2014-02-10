@@ -45,6 +45,40 @@ def load_rows(username, password):
     
     return list(chain(*sheet_rows))
 
+def find_thumbnail(item):
+    '''
+    '''
+    if item['format'] != 'Video':
+        return item
+    
+    from urlparse import urlparse, parse_qs
+    from urllib import urlopen
+    from os.path import split
+    from json import load
+    
+    try:
+        _, host, path, _, query, _ = urlparse(item['link'])
+    
+        if host in ('youtube.com', 'www.youtube.com'):
+            if 'v' in parse_qs(query):
+                id = parse_qs(query)['v'][0]
+                item['thumb_src'] = 'http://img.youtube.com/vi/%s/0.jpg' % id
+                item['embed_href'] = '//www.youtube.com/embed/%s' % id
+                
+                if 'link' in parse_qs(query):
+                    item['embed_href'] += '?list=%s' % parse_qs(query)['link'][0]
+    
+        if host in ('vimeo.com', 'www.vimeo.com'):
+            id = split(path)[-1]
+            info = load(urlopen('http://vimeo.com/api/v2/video/%s.json' % id))
+            item['thumb_src'] = info[0]['thumbnail_large']
+            item['embed_href'] = '//player.vimeo.com/video/%s?title=0&byline=0&portrait=0' % id
+    
+    except:
+        pass
+    
+    return item
+
 if __name__ == '__main__':
 
     (dbname, ) = argv[1:]
@@ -81,6 +115,8 @@ if __name__ == '__main__':
             format = row.get('Format') or None,
             summary_txt = row.get('Summary Text') or None,
             content_htm = row.get('Content HTML') or None,
+            thumb_src = None,
+            embed_href = None,
             contributors = contributors,
             contacts = contacts,
             locations = locations,
@@ -92,6 +128,15 @@ if __name__ == '__main__':
            continue 
         
         items.append(item)
+    
+    print '%.3f seconds' % (time() - start_time)
+
+    print 'Thumbnailing', len(items), 'items...',
+    start_time = time()
+    
+    pool = Pool(processes=10)
+    items = pool.map(find_thumbnail, items)
+    pool.close()
     
     print '%.3f seconds' % (time() - start_time)
 
@@ -120,11 +165,13 @@ if __name__ == '__main__':
         
             try:
                 db.execute('''INSERT INTO items
-                              (id, slug, category, title, link, date, format, summary_txt, content_htm)
-                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                              (id, slug, category, title, link, date, format,
+                               summary_txt, content_htm, thumb_src, embed_href)
+                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
                            (item_id, item['slug'], item['category'], item['title'],
                             item['link'], item['date'], item['format'],
-                            item['summary_txt'], item['content_htm'])
+                            item['summary_txt'], item['content_htm'],
+                            item['thumb_src'], item['embed_href'])
                            )
 
                 db.executemany('INSERT INTO item_tags (item_id, tag) VALUES (?, ?)',
