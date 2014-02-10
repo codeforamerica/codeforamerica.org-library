@@ -78,36 +78,28 @@
             <? if(!empty($item['contributors'])) { ?>
               <h4 class="text-whisper layout-tight">Contributors</h4>
               <p>
-                <? foreach($item['contributors'] as $contributor) { ?>
-                    <a href="<?= person_href($context, $contributor) ?>"><?= html($contributor['name']) ?></a>,
-                <? } ?>
+                <?= anchor_list($context, 'person_anchor', $item['contributors']) ?>.
               </p>
             <? } ?>
         
             <? if(!empty($item['tags'])) { ?>
               <h4 class="text-whisper layout-tight">Tags</h4>
               <p>
-                <? foreach($item['tags'] as $tag) { ?>
-                    <?= tag_anchor($context, $tag) ?>,
-                <? } ?>
+                <?= anchor_list($context, 'tag_anchor', $item['tags']) ?>.
               </p>
             <? } ?>
         
             <? if(!empty($item['programs'])) { ?>
               <h4 class="text-whisper layout-tight">Programs</h4>
               <p>
-                <? foreach($item['programs'] as $program) { ?>
-                    <?= program_anchor($context, $program) ?>,
-                <? } ?>
+                <?= anchor_list($context, 'program_anchor', $item['programs']) ?>.
               </p>
             <? } ?>
         
             <? if(!empty($item['locations'])) { ?>
               <h4 class="text-whisper layout-tight">Locations</h4>
               <p>
-                <? foreach($item['locations'] as $location) { ?>
-                    <?= location_anchor($context, $location) ?>,
-                <? } ?>
+                <?= anchor_list($context, 'location_anchor', $item['locations']) ?>.
               </p>
             <? } ?>
         
@@ -121,9 +113,7 @@
             <? if(!empty($item['contacts'])) { ?>
               <h4 class="text-whisper layout-tight">Contacts</h4>
               <p>
-                <? foreach($item['contacts'] as $contact) { ?>
-                    <a href="<?= person_href($context, $contact) ?>"><?= html($contact['name']) ?></a>,
-                <? } ?>
+                <?= anchor_list($context, 'person_anchor', $item['contacts']) ?>.
               </p>
             <? } ?>
         

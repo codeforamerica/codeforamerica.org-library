@@ -15,7 +15,7 @@
         */
         function select($q)
         {
-            return $this->dbh->query($q, PDO::FETCH_ASSOC);
+            return $this->dbh->query($q, PDO::FETCH_ASSOC)->fetchAll();
         }
         
        /**
@@ -57,29 +57,12 @@
         return $ctx->base() . '/item/' . urlencode($name);
     }
     
-    function category_href(&$ctx, $category)
+    function person_anchor(&$ctx, $person)
     {
-        return $ctx->base() . '/category/' . urlencode($category);
-    }
-    
-    function tag_href(&$ctx, $tag)
-    {
-        return $ctx->base() . '/tag/' . urlencode($tag);
-    }
-    
-    function program_href(&$ctx, $program)
-    {
-        return $ctx->base() . '/program/' . urlencode($program);
-    }
-    
-    function location_href(&$ctx, $location)
-    {
-        return $ctx->base() . '/location/' . urlencode($location);
-    }
-    
-    function person_href(&$ctx, $person)
-    {
-        return '#'; //$ctx->base() . '/person/' . urlencode($person['name']);
+        $href = '#'; //$ctx->base() . '/person/' . urlencode($person['name']);
+        $html = sprintf('<a href="%s">%s</a>', html($href), html($person['name']));
+        
+        return $html;
     }
     
     function item_anchor(&$ctx, $item)
@@ -103,7 +86,7 @@
     
     function category_anchor(&$ctx, $category)
     {
-        $href = category_href($ctx, $category['category']);
+        $href = $ctx->base() . '/category/' . urlencode($category['category']);
         $html = sprintf('<a href="%s">%s</a>', html($href), html($category['category']));
         
         if(is_numeric($category['items']))
@@ -114,7 +97,7 @@
     
     function tag_anchor(&$ctx, $tag)
     {
-        $href = tag_href($ctx, $tag['tag']);
+        $href = $ctx->base() . '/tag/' . urlencode($tag['tag']);
         $html = sprintf('<a href="%s">%s</a>', html($href), html($tag['tag']));
         
         if(is_numeric($tag['items']))
@@ -125,7 +108,7 @@
     
     function program_anchor(&$ctx, $program)
     {
-        $href = program_href($ctx, $program['program']);
+        $href = $ctx->base() . '/program/' . urlencode($program['program']);
         $html = sprintf('<a href="%s">%s</a>', html($href), html($program['program']));
         
         if(is_numeric($program['items']))
@@ -136,13 +119,20 @@
     
     function location_anchor(&$ctx, $location)
     {
-        $href = location_href($ctx, $location['location']);
+        $href = $ctx->base() . '/location/' . urlencode($location['location']);
         $html = sprintf('<a href="%s">%s</a>', html($href), html($location['location']));
         
         if(is_numeric($location['items']))
             $html .= " ({$location['items']})";
         
         return $html;
+    }
+    
+    function anchor_list(&$ctx, $callback, $things)
+    {
+        $ctxs = array_fill(0, count($things), $ctx);
+        $anchors = array_map($callback, $ctxs, $things);
+        return join(', ', $anchors);
     }
     
     function embed_html($item)
@@ -312,7 +302,7 @@
     {
         $query = 'SELECT people.* FROM item_contacts
                   LEFT JOIN people ON people.id = item_contacts.person_id
-                  WHERE item_id = %s';
+                  WHERE item_id = %s AND people.name != ""';
         
         
         $contacts = $ctx->selectf($query, $item_id);
@@ -324,7 +314,7 @@
     {
         $query = 'SELECT people.* FROM item_contributors
                   LEFT JOIN people ON people.id = item_contributors.person_id
-                  WHERE item_id = %s';
+                  WHERE item_id = %s AND people.name != ""';
         
         $contributors = $ctx->selectf($query, $item_id);
         
