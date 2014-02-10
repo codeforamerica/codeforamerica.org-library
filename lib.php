@@ -180,9 +180,7 @@
                   GROUP BY category
                   ORDER BY category COLLATE NOCASE';
         
-        $categories = $ctx->select($query);
-        
-        return $categories;
+        return $ctx->select($query);
     }
     
     function get_tags(&$ctx)
@@ -192,9 +190,7 @@
                   GROUP BY tag
                   ORDER BY tag COLLATE NOCASE';
         
-        $tags = $ctx->select($query);
-        
-        return $tags;
+        return $ctx->select($query);
     }
     
     function get_programs(&$ctx)
@@ -204,9 +200,7 @@
                   GROUP BY program
                   ORDER BY program COLLATE NOCASE';
         
-        $programs = $ctx->select($query);
-        
-        return $programs;
+        return $ctx->select($query);
     }
     
     function get_locations(&$ctx)
@@ -216,9 +210,7 @@
                   GROUP BY location
                   ORDER BY location COLLATE NOCASE';
         
-        $locations = $ctx->select($query);
-        
-        return $locations;
+        return $ctx->select($query);
     }
     
     function get_people(&$ctx)
@@ -243,9 +235,7 @@
                   GROUP BY people.id
                   ORDER BY people.name COLLATE NOCASE';
         
-        $people = $ctx->select($query);
-        
-        return $people;
+        return $ctx->select($query);
     }
     
     function get_category_items(&$ctx, $category_name)
@@ -254,9 +244,7 @@
                   WHERE category = %s
                   ORDER BY title COLLATE NOCASE';
         
-        $items = $ctx->selectf($query, $category_name);
-        
-        return $items;
+        return $ctx->selectf($query, $category_name);
     }
     
     function get_tag_items(&$ctx, $tag_name)
@@ -266,9 +254,7 @@
                   WHERE item_tags.tag = %s
                   ORDER BY items.title COLLATE NOCASE';
         
-        $items = $ctx->selectf($query, $tag_name);
-        
-        return $items;
+        return $ctx->selectf($query, $tag_name);
     }
     
     function get_program_items(&$ctx, $program_name)
@@ -278,9 +264,7 @@
                   WHERE item_programs.program = %s
                   ORDER BY items.title COLLATE NOCASE';
         
-        $items = $ctx->selectf($query, $program_name);
-        
-        return $items;
+        return $ctx->selectf($query, $program_name);
     }
     
     function get_location_items(&$ctx, $location_name)
@@ -290,9 +274,7 @@
                   WHERE item_locations.location = %s
                   ORDER BY items.title COLLATE NOCASE';
         
-        $items = $ctx->selectf($query, $location_name);
-        
-        return $items;
+        return $ctx->selectf($query, $location_name);
     }
     
     function get_person_items(&$ctx, $person_name)
@@ -311,9 +293,7 @@
                   
                   ORDER BY title COLLATE NOCASE';
         
-        $items = $ctx->selectf($query, $person_name, $person_name);
-        
-        return $items;
+        return $ctx->selectf($query, $person_name, $person_name);
     }
     
     function get_item_tags(&$ctx, $item_id)
@@ -322,9 +302,7 @@
                   WHERE item_id = %s AND tag != ""
                   ORDER BY tag COLLATE NOCASE';
         
-        $tags = $ctx->selectf($query, $item_id);
-        
-        return $tags;
+        return $ctx->selectf($query, $item_id);
     }
     
     function get_item_locations(&$ctx, $item_id)
@@ -333,9 +311,7 @@
                   WHERE item_id = %s AND location != ""
                   ORDER BY location COLLATE NOCASE';
         
-        $locations = $ctx->selectf($query, $item_id);
-        
-        return $locations;
+        return $ctx->selectf($query, $item_id);
     }
     
     function get_item_programs(&$ctx, $item_id)
@@ -344,9 +320,7 @@
                   WHERE item_id = %s AND program != ""
                   ORDER BY program COLLATE NOCASE';
         
-        $programs = $ctx->selectf($query, $item_id);
-        
-        return $programs;
+        return $ctx->selectf($query, $item_id);
     }
     
     function get_item_contacts(&$ctx, $item_id)
@@ -356,9 +330,7 @@
                   WHERE item_id = %s AND people.name != ""';
         
         
-        $contacts = $ctx->selectf($query, $item_id);
-        
-        return $contacts;
+        return $ctx->selectf($query, $item_id);
     }
     
     function get_item_contributors(&$ctx, $item_id)
@@ -367,9 +339,7 @@
                   LEFT JOIN people ON people.id = item_contributors.person_id
                   WHERE item_id = %s AND people.name != ""';
         
-        $contributors = $ctx->selectf($query, $item_id);
-        
-        return $contributors;
+        return $ctx->selectf($query, $item_id);
     }
     
     function get_item(&$ctx, $name)
