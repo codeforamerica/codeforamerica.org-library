@@ -47,12 +47,37 @@
         <header>
             <h2>Locations</h2>
         </header>
+        
+        <?
+            $locations = get_locations($context);
 
-        <ul>
-            <? foreach(get_locations($context) as $location) { ?>
-                <li><?= location_anchor($context, $location) ?></li>
+            // Render three columns.
+            $c = count($locations) / 3;
+            $locations_1 = array_slice($locations, 0, floor($c));
+            $locations_2 = array_slice($locations, floor($c), floor(2*$c) - floor($c));
+            $locations_3 = array_slice($locations, floor(2 * $c));
+        ?>
+        <div class="layout-crotchet">
+          <ul>
+            <? foreach($locations_1 as $location) { ?>
+              <li><?= location_anchor($context, $location) ?></li>
             <? } ?>
-        </ul>
+          </ul>
+        </div>
+        <div class="layout-crotchet">
+          <ul>
+            <? foreach($locations_2 as $location) { ?>
+              <li><?= location_anchor($context, $location) ?></li>
+            <? } ?>
+          </ul>
+        </div>
+        <div class="layout-crotchet">
+          <ul>
+            <? foreach($locations_3 as $location) { ?>
+              <li><?= location_anchor($context, $location) ?></li>
+            <? } ?>
+          </ul>
+        </div>
     <? } ?>
     
 </div>

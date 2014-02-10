@@ -47,12 +47,37 @@
         <header>
             <h2>Tags</h2>
         </header>
+        
+        <?
+            $tags = get_tags($context);
 
-        <ul>
-            <? foreach(get_tags($context) as $tag) { ?>
-                <li><?= tag_anchor($context, $tag) ?></li>
+            // Render three columns.
+            $c = count($tags) / 3;
+            $tags_1 = array_slice($tags, 0, floor($c));
+            $tags_2 = array_slice($tags, floor($c), floor(2*$c) - floor($c));
+            $tags_3 = array_slice($tags, floor(2 * $c));
+        ?>
+        <div class="layout-crotchet">
+          <ul>
+            <? foreach($tags_1 as $tag) { ?>
+              <li><?= tag_anchor($context, $tag) ?></li>
             <? } ?>
-        </ul>
+          </ul>
+        </div>
+        <div class="layout-crotchet">
+          <ul>
+            <? foreach($tags_2 as $tag) { ?>
+              <li><?= tag_anchor($context, $tag) ?></li>
+            <? } ?>
+          </ul>
+        </div>
+        <div class="layout-crotchet">
+          <ul>
+            <? foreach($tags_3 as $tag) { ?>
+              <li><?= tag_anchor($context, $tag) ?></li>
+            <? } ?>
+          </ul>
+        </div>
     <? } ?>
     
 </div>

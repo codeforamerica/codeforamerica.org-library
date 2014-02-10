@@ -47,12 +47,37 @@
         <header>
             <h2>Categories</h2>
         </header>
+        
+        <?
+            $categories = get_categories($context);
 
-        <ul>
-            <? foreach(get_categories($context) as $category) { ?>
-                <li><?= category_anchor($context, $category) ?></li>
+            // Render three columns.
+            $c = count($categories) / 3;
+            $categories_1 = array_slice($categories, 0, floor($c));
+            $categories_2 = array_slice($categories, floor($c), floor(2*$c) - floor($c));
+            $categories_3 = array_slice($categories, floor(2 * $c));
+        ?>
+        <div class="layout-crotchet">
+          <ul>
+            <? foreach($categories_1 as $category) { ?>
+              <li><?= category_anchor($context, $category) ?></li>
             <? } ?>
-        </ul>
+          </ul>
+        </div>
+        <div class="layout-crotchet">
+          <ul>
+            <? foreach($categories_2 as $category) { ?>
+              <li><?= category_anchor($context, $category) ?></li>
+            <? } ?>
+          </ul>
+        </div>
+        <div class="layout-crotchet">
+          <ul>
+            <? foreach($categories_3 as $category) { ?>
+              <li><?= category_anchor($context, $category) ?></li>
+            <? } ?>
+          </ul>
+        </div>
     <? } ?>
     
 </div>
