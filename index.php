@@ -25,7 +25,9 @@
         </ul>
     </nav>
 	
-    <h2>Library</h2>
+    <h2>Library <i>(Alpha)</i></h2>
+    
+    <p>Welcome to Code for America's resource library, version 0.5. You'll find many videos, how-to guides, and other documents, categorized by topic. We'll be making everything prettier in late February and March.</p>
     
     <div class="layout-minim">
         <h3>Categories</h3>
