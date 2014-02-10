@@ -123,15 +123,13 @@
             <? if($item['format'] == 'Video') { ?>
                 <?= embed_html($item) ?>
             <? } ?>
-        
-            <dl>
-                <dt>ID</dt>
-                <dd><?= html($item['id']) ?></dd>
-                <dt>Link</dt>
-                <dd><a href="<?= html($item['link']) ?>"><?= html($item['link']) ?></a></dd>
-                <dt>Format</dt>
-                <dd><?= html($item['format']) ?></dd>
-            </dl>
+            
+            <p>
+                Link:
+                <a href="<?= html($item['link']) ?>"><?= html($item['link']) ?></a>
+            </p>
+            
+            <p><?= $item['content_htm'] ?></p>
         </div>
     <? } ?>
 </div>
