@@ -97,7 +97,7 @@
               <h4 class="text-whisper layout-tight">Programs</h4>
               <p>
                 <? foreach($item['programs'] as $program) { ?>
-                    <a href="<?= program_href($context, $program) ?>"><?= html($program) ?></a>,
+                    <?= program_anchor($context, $program) ?>,
                 <? } ?>
               </p>
             <? } ?>
@@ -106,7 +106,7 @@
               <h4 class="text-whisper layout-tight">Locations</h4>
               <p>
                 <? foreach($item['locations'] as $location) { ?>
-                    <a href="<?= location_href($context, $location) ?>"><?= html($location) ?></a>,
+                    <?= location_anchor($context, $location) ?>,
                 <? } ?>
               </p>
             <? } ?>

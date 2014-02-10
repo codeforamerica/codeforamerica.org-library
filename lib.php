@@ -123,6 +123,28 @@
         return $html;
     }
     
+    function program_anchor(&$ctx, $program)
+    {
+        $href = program_href($ctx, $program['program']);
+        $html = sprintf('<a href="%s">%s</a>', html($href), html($program['program']));
+        
+        if(is_numeric($program['items']))
+            $html .= " ({$program['items']})";
+        
+        return $html;
+    }
+    
+    function location_anchor(&$ctx, $location)
+    {
+        $href = location_href($ctx, $location['location']);
+        $html = sprintf('<a href="%s">%s</a>', html($href), html($location['location']));
+        
+        if(is_numeric($location['items']))
+            $html .= " ({$location['items']})";
+        
+        return $html;
+    }
+    
     function embed_html($item)
     {
         if(preg_match('#^https?://(www.)?youtube.com/#', $item['link']))
@@ -184,32 +206,24 @@
     
     function get_programs(&$ctx)
     {
-        $programs = array();
-
-        $query = 'SELECT DISTINCT program
+        $query = 'SELECT program, COUNT(item_id) AS items
                   FROM item_programs WHERE program IS NOT NULL AND program != ""
+                  GROUP BY program
                   ORDER BY program';
         
-        foreach($ctx->select($query) as $row)
-        {
-            $programs[] = $row['program'];
-        }
+        $programs = $ctx->select($query);
         
         return $programs;
     }
     
     function get_locations(&$ctx)
     {
-        $locations = array();
-
-        $query = 'SELECT DISTINCT location
+        $query = 'SELECT location, COUNT(item_id) AS items
                   FROM item_locations WHERE location IS NOT NULL AND location != ""
+                  GROUP BY location
                   ORDER BY location';
         
-        foreach($ctx->select($query) as $row)
-        {
-            $locations[] = $row['location'];
-        }
+        $locations = $ctx->select($query);
         
         return $locations;
     }
@@ -274,32 +288,22 @@
     
     function get_item_locations(&$ctx, $item_id)
     {
-        $locations = array();
-
         $query = 'SELECT location FROM item_locations
                   WHERE item_id = %s AND location != ""
                   ORDER BY location';
         
-        foreach($ctx->selectf($query, $item_id) as $row)
-        {
-            $locations[] = $row['location'];
-        }
+        $locations = $ctx->selectf($query, $item_id);
         
         return $locations;
     }
     
     function get_item_programs(&$ctx, $item_id)
     {
-        $programs = array();
-
         $query = 'SELECT program FROM item_programs
                   WHERE item_id = %s AND program != ""
                   ORDER BY program';
         
-        foreach($ctx->selectf($query, $item_id) as $row)
-        {
-            $programs[] = $row['program'];
-        }
+        $programs = $ctx->selectf($query, $item_id);
         
         return $programs;
     }

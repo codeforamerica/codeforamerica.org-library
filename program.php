@@ -50,7 +50,7 @@
 
         <ul>
             <? foreach(get_programs($context) as $program) { ?>
-                <li><a href="<?= program_href($context, $program) ?>"><?= html($program) ?></a></li>
+                <li><?= program_anchor($context, $program) ?></li>
             <? } ?>
         </ul>
     <? } ?>

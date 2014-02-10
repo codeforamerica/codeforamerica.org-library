@@ -50,7 +50,7 @@
 
         <ul>
             <? foreach(get_locations($context) as $location) { ?>
-                <li><a href="<?= location_href($context, $location) ?>"><?= html($location) ?></a></li>
+                <li><?= location_anchor($context, $location) ?></li>
             <? } ?>
         </ul>
     <? } ?>
