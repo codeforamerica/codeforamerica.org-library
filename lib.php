@@ -59,8 +59,11 @@
     
     function person_anchor(&$ctx, $person)
     {
-        $href = '#'; //$ctx->base() . '/person/' . urlencode($person['name']);
+        $href = $ctx->base() . '/person/' . urlencode($person['name']);
         $html = sprintf('<a href="%s">%s</a>', html($href), html($person['name']));
+        
+        if(is_numeric($person['items']) && $person['items'] > 1)
+            $html .= " ({$person['items']})";
         
         return $html;
     }
@@ -218,6 +221,33 @@
         return $locations;
     }
     
+    function get_people(&$ctx)
+    {
+        $query = 'SELECT people.*, COUNT(distinct item_people.item_id) AS items
+                  FROM
+                  (
+                      SELECT person_id, item_id
+                      FROM item_contacts
+                  
+                      UNION
+
+                      SELECT person_id, item_id
+                      FROM item_contributors
+                  
+                  ) AS item_people
+
+                  LEFT JOIN people ON people.id = item_people.person_id
+                  
+                  WHERE people.name IS NOT NULL AND LENGTH(people.name) > 1
+                  
+                  GROUP BY people.id
+                  ORDER BY people.name COLLATE NOCASE';
+        
+        $people = $ctx->select($query);
+        
+        return $people;
+    }
+    
     function get_category_items(&$ctx, $category_name)
     {
         $query = 'SELECT * FROM items
@@ -261,6 +291,27 @@
                   ORDER BY items.title';
         
         $items = $ctx->selectf($query, $location_name);
+        
+        return $items;
+    }
+    
+    function get_person_items(&$ctx, $person_name)
+    {
+        $query = 'SELECT items.* FROM people
+                  LEFT JOIN item_contributors ON item_contributors.person_id = people.id
+                  LEFT JOIN items ON items.id = item_contributors.item_id
+                  WHERE people.name = %s
+                  
+                  UNION
+                  
+                  SELECT items.* FROM people
+                  LEFT JOIN item_contacts ON item_contacts.person_id = people.id
+                  LEFT JOIN items ON items.id = item_contacts.item_id
+                  WHERE people.name = %s
+                  
+                  ORDER BY title COLLATE NOCASE';
+        
+        $items = $ctx->selectf($query, $person_name, $person_name);
         
         return $items;
     }
