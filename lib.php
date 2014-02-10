@@ -82,15 +82,50 @@
             $extra[] = $item['date'];
         
         if($extra)
-            $html .= ' ('.implode(', ', $extra).')';
+            $type_html = sprintf('<span class="teaser-type teaser-type-article">%s</span>', implode(', ', $extra));
         
-        return $html;
+        if($item['summary_txt'])
+        {
+            $teaser_html = sprintf('<p>%s […] <a href="%s">Read more</a></p>',
+                                   html($item['summary_txt']), html($href));
+        }
+        
+        return sprintf('
+        <article class="teaser">
+            <header class="teaser-header">
+                <a href="%s">
+                    <h1 class="teaser-title">%s</h1>
+                </a>
+            </header>
+            <div class="teaser-body">
+                %s
+            </div>
+            <footer class="teaser-footer">
+                <a href="%s" class="teaser-masthead">
+                    <img class="teaser-image" src="%s">
+                    %s
+                </a>
+                %s
+            </footer>
+        </article>
+        ',
+
+        html($href),
+        html($item['title']),
+
+        $teaser_html,
+
+        html($href),
+        html($item['thumb_src']),
+        $type_html,
+        category_anchor($ctx, $item, 'teaser-source')
+        );
     }
     
-    function category_anchor(&$ctx, $category)
+    function category_anchor(&$ctx, $category, $class='')
     {
         $href = $ctx->base() . '/category/' . urlencode($category['category']);
-        $html = sprintf('<a href="%s">%s</a>', html($href), html($category['category']));
+        $html = sprintf('<a href="%s" class="%s">%s</a>', html($href), html($class), html($category['category']));
         
         if(is_numeric($category['items']) && $category['items'] > 1)
             $html .= "&nbsp;({$category['items']})";

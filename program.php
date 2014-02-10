@@ -38,9 +38,9 @@
             <h2>Items In <?= html($program_name) ?> Program</h2>
         </header>
 
-        <ul>
+        <ul class="teasers">
             <? foreach(get_program_items($context, $program_name) as $item) { ?>
-                <li><?= item_anchor($context, $item) ?></li>
+                <li class="layout-crotchet"><?= item_anchor($context, $item) ?></li>
             <? } ?>
         </ul>
     <? } else { ?>

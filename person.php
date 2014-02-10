@@ -38,9 +38,9 @@
             <h2>Items With <?= html($person_name) ?></h2>
         </header>
 
-        <ul>
+        <ul class="teasers">
             <? foreach(get_person_items($context, $person_name) as $item) { ?>
-                <li><?= item_anchor($context, $item) ?></li>
+                <li class="layout-crotchet"><?= item_anchor($context, $item) ?></li>
             <? } ?>
         </ul>
     <? } else { ?>

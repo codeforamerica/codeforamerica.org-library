@@ -38,9 +38,9 @@
             <h2>Items Tagged <q><?= html($tag_name) ?></q></h2>
         </header>
 
-        <ul>
+        <ul class="teasers">
             <? foreach(get_tag_items($context, $tag_name) as $item) { ?>
-                <li><?= item_anchor($context, $item) ?></li>
+                <li class="layout-crotchet"><?= item_anchor($context, $item) ?></li>
             <? } ?>
         </ul>
     <? } else { ?>

@@ -38,9 +38,9 @@
             <h2>Items In <?= html($location_name) ?></h2>
         </header>
 
-        <ul>
+        <ul class="teasers">
             <? foreach(get_location_items($context, $location_name) as $item) { ?>
-                <li><?= item_anchor($context, $item) ?></li>
+                <li class="layout-crotchet"><?= item_anchor($context, $item) ?></li>
             <? } ?>
         </ul>
     <? } else { ?>

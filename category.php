@@ -38,9 +38,9 @@
             <h2>Items In Category <q><?= html($cat_name) ?></q></h2>
         </header>
 
-        <ul>
+        <ul class="teasers">
             <? foreach(get_category_items($context, $cat_name) as $item) { ?>
-                <li><?= item_anchor($context, $item) ?></li>
+                <li class="layout-crotchet"><?= item_anchor($context, $item) ?></li>
             <? } ?>
         </ul>
     <? } else { ?>
