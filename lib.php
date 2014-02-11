@@ -294,14 +294,14 @@
         $query = 'SELECT items.* FROM people
                   LEFT JOIN item_contributors ON item_contributors.person_id = people.id
                   LEFT JOIN items ON items.id = item_contributors.item_id
-                  WHERE people.name = %s
+                  WHERE people.name = %s AND items.id IS NOT NULL
                   
                   UNION
                   
                   SELECT items.* FROM people
                   LEFT JOIN item_contacts ON item_contacts.person_id = people.id
                   LEFT JOIN items ON items.id = item_contacts.item_id
-                  WHERE people.name = %s
+                  WHERE people.name = %s AND items.id IS NOT NULL
                   
                   ORDER BY title COLLATE NOCASE';
         
