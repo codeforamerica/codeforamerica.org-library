@@ -90,6 +90,16 @@
                                    html($item['summary_txt']), html($href));
         }
         
+        $thumb_src = $item['thumb_src'] ? $item['thumb_src']
+                   : $ctx->base().'/assets/generic-document.png';
+        
+        if($item['thumb_ratio'])
+        {
+            // available thumbnail size is 307 x 162
+            $image_height = 307 / $item['thumb_ratio'];
+            $image_offset = 162/2 - $image_height/2;
+        }
+        
         return sprintf('
         <article class="teaser">
             <header class="teaser-header">
@@ -102,7 +112,7 @@
             </div>
             <footer class="teaser-footer">
                 <a href="%s" class="teaser-masthead">
-                    <img class="teaser-image" src="%s">
+                    <img class="teaser-image" src="%s" style="top: %dpx; position: relative">
                     %s
                 </a>
                 %s
@@ -116,7 +126,8 @@
         $teaser_html,
 
         html($href),
-        html($item['thumb_src']),
+        html($thumb_src),
+        $image_offset,
         $type_html,
         category_anchor($ctx, $item, 'teaser-source')
         );

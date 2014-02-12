@@ -18,6 +18,7 @@ CREATE TABLE items
     summary_txt TEXT,
     content_htm TEXT,
     thumb_src   TEXT,
+    thumb_ratio FLOAT,
     embed_href  TEXT
 );
 

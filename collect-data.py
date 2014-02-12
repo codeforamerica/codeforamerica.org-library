@@ -9,6 +9,8 @@ GDocs authentication is pulled from two environment variables, GDOCS_USERNAME
 and GDOCS_PASSWORD. We use a single-purpose Google account with read-only access
 to run the updates.
 '''
+from __future__ import division
+
 from sys import argv
 from time import time
 from os import environ
@@ -17,8 +19,11 @@ from itertools import chain
 from multiprocessing import Pool
 from sqlite3 import connect, IntegrityError
 from hashlib import sha1
+from StringIO import StringIO
 
 import gspread
+import requests
+from PIL import Image
 
 def load_sheets(username, password):
     ''' Return a list of worksheets, except 'tbd' and 'Taxonomy'.
@@ -45,6 +50,14 @@ def load_rows(username, password):
     
     return list(chain(*sheet_rows))
 
+def get_aspect_ratio(image_url):
+    '''
+    '''
+    got = requests.get(image_url)
+    bytes = StringIO(got.content)
+    img = Image.open(bytes)
+    return img.size[0] / img.size[1]
+
 def find_thumbnail(item):
     '''
     '''
@@ -63,6 +76,7 @@ def find_thumbnail(item):
             if 'v' in parse_qs(query):
                 id = parse_qs(query)['v'][0]
                 item['thumb_src'] = 'http://img.youtube.com/vi/%s/0.jpg' % id
+                item['thumb_ratio'] = get_aspect_ratio(item['thumb_src'])
                 item['embed_href'] = '//www.youtube.com/embed/%s' % id
                 
                 if 'link' in parse_qs(query):
@@ -72,6 +86,7 @@ def find_thumbnail(item):
             id = split(path)[-1]
             info = load(urlopen('http://vimeo.com/api/v2/video/%s.json' % id))
             item['thumb_src'] = info[0]['thumbnail_large']
+            item['thumb_ratio'] = get_aspect_ratio(item['thumb_src'])
             item['embed_href'] = '//player.vimeo.com/video/%s?title=0&byline=0&portrait=0' % id
     
     except:
@@ -116,6 +131,7 @@ if __name__ == '__main__':
             summary_txt = row.get('Summary Text') or None,
             content_htm = row.get('Content HTML') or None,
             thumb_src = None,
+            thumb_ratio = None,
             embed_href = None,
             contributors = contributors,
             contacts = contacts,
@@ -166,12 +182,12 @@ if __name__ == '__main__':
             try:
                 db.execute('''INSERT INTO items
                               (id, slug, category, title, link, date, format,
-                               summary_txt, content_htm, thumb_src, embed_href)
-                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                               summary_txt, content_htm, thumb_src, thumb_ratio, embed_href)
+                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
                            (item_id, item['slug'], item['category'], item['title'],
                             item['link'], item['date'], item['format'],
                             item['summary_txt'], item['content_htm'],
-                            item['thumb_src'], item['embed_href'])
+                            item['thumb_src'], item['thumb_ratio'], item['embed_href'])
                            )
 
                 db.executemany('INSERT INTO item_tags (item_id, tag) VALUES (?, ?)',
