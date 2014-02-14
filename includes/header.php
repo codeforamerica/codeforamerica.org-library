@@ -25,7 +25,7 @@
 
 <div class="global-header">  
   <a href="/" class="global-header-logo">
-      <img src="<?= $context->base() ?>/assets/logo.gif" />
+      <img src="<?= $context->base() ?>/assets/logo.png" />
   </a>
   <p class="skip-to-nav"><a href="#global-footer">Menu</a></p>
 
