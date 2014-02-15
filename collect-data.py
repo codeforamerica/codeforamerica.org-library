@@ -217,3 +217,6 @@ if __name__ == '__main__':
         db.execute('VACUUM')
     
     print '%.3f seconds' % (time() - start_time)
+
+    with open(state_file, 'w') as state:
+        print >> state, 'OK'
