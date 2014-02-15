@@ -96,7 +96,7 @@ def find_thumbnail(item):
 
 if __name__ == '__main__':
 
-    (dbname, ) = argv[1:]
+    (dbname, state_file) = argv[1:]
     items, people = [], []
     
     print 'Downloading...',
@@ -205,9 +205,13 @@ if __name__ == '__main__':
                 db.executemany('INSERT INTO item_contacts (item_id, person_id) VALUES (?, ?)',
                                [(item_id, person_id) for person_id in item['contacts']])
 
-            except IntegrityError, e:
+            except Exception, e:
+                with open(state_file, 'w') as state:
+                    print >> state, 'Failed at "%(title)s" in %(category)s,' % item,
+                    print >> state, e
+            
                 print '--> Failed at "%(title)s" in %(category)s:' % item
-                print '   ', e, '(integrity error)'
+                print '   ', e
                 raise
             
         db.execute('VACUUM')
