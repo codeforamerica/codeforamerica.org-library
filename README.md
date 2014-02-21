@@ -2,7 +2,7 @@ Code for America dot Org slash Library
 ======================================
 
 This repository controls the code behind the Code for America website Library
-section, currently visible at [alpha.codeforamerica.org/library](http://alpha.codeforamerica.org/library/).
+section, currently visible at [www.codeforamerica.org/library](http://www.codeforamerica.org/library/).
 
 How to Edit
 -----------
