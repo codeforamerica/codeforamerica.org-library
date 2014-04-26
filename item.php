@@ -139,7 +139,7 @@
 </main>
 
 </div><!-- /.js-container -->
-<script src="http://style.codeforamerica.org/script/global.js"></script>
+<script src="http://style.codeforamerica.org/1/script/global.js"></script>
 
 </body>
 </html>
