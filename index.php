@@ -18,12 +18,8 @@
 
 <main role="main">
 <div class="layout-semibreve">
-    <nav class="nav-breadcrumbs" role="navigation">
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="<?= $context->base() ?>/">Library</a></li>
-        </ul>
-    </nav>
+
+    <? include 'includes/header-breadcrumbs.php' ?>
 	
     <h2>Library <i>(Alpha)</i></h2>
     

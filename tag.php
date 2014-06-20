@@ -26,12 +26,7 @@
 <main role="main">
 <div class="layout-semibreve">
 
-    <nav class="nav-breadcrumbs" role="navigation">
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="<?= $context->base() ?>/">Library</a></li>
-        </ul>
-    </nav>
+    <? include 'includes/header-breadcrumbs.php' ?>
 	
     <? if($tag_name) { ?>
         <header>
