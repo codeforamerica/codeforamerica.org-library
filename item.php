@@ -1,5 +1,11 @@
 <?php
-
+    
+    if(!file_exists('data.db'))
+    {
+        header('HTTP/1.1 500');
+        exit(0);
+    }
+    
     require_once 'lib.php';
     $context = new Context('data.db');
     $item_name = $context->path_info();
