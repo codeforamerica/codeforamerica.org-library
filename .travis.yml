@@ -1,0 +1,6 @@
+language: php
+script:
+    - ./.check-syntax.sh
+branches:
+  only:
+    - master
