@@ -22,7 +22,6 @@
 	
     	<h2>Open by Default</h2>
 	<h4>A comprehensive playbook to help you get open data started in your city or county.</h4>
-</div>
 <div>	
 			<p>When public data is made freely available in open, standardized formats, it can drive transparency, community engagement, and accountability. Governments around the country are building a culture and commitment to openness in City Hall across departments by making government data openly and easily available to citizens — and supporting open data with process and technology.</p>
 			<p>In this guide, we’ll explain some of the practical tactics and considerations you’ll need to know to get an open data initiative off the ground in your city or county, drawing upon the experience and expertise of other governments who have successfully done so.</p>
