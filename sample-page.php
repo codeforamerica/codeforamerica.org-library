@@ -74,7 +74,25 @@
 	<h3>Laying the Groundwork for Open Data</h3>
 	</div>
 	<h4>Define the goals of your open data initiative</h4>
-	<p>In order to be successful, open data initiatives must be clearly aligned with larger strategic goals and objectives. Opening data just for the sake of “doing open data” is a recipe for frustration, confusion, and lack of long-term impact.</p>
+	<ul class="teasers"><li class="layout-crotchet">
+        <article class="teaser">
+            <header class="teaser-header">
+                <a href="/library/item/f455738399e69e62">
+                    <h1 class="teaser-title">Civic App Demo: Open 311 Dashboard</h1>
+                </a>
+            </header>
+            <div class="teaser-body">
+                
+            </div>
+            <footer class="teaser-footer">
+                <a href="/library/item/f455738399e69e62" class="teaser-masthead">
+                    <img class="teaser-image" src="http://i.vimeocdn.com/video/243444779_640.jpg" style="top: -34px; position: relative">
+                    <span class="teaser-type teaser-type-article">Video, 2011</span>
+                </a>
+                <a href="/library/category/Defaulting+to+Open" class="teaser-source">Defaulting to Open</a>
+            </footer>
+        </article>
+        </li></ul><p>In order to be successful, open data initiatives must be clearly aligned with larger strategic goals and objectives. Opening data just for the sake of “doing open data” is a recipe for frustration, confusion, and lack of long-term impact.</p>
 	<p>So, before getting started, it's key to define your goals for open data. Being clear about this from the beginning will make it easier to articulate the value and get other stakeholders on board. Ask yourself: Why is open data important for your government? What do you hope to accomplish? How can open data support the existing needs and priorities of your government and leadership?</p>
 	<h4>Common goals for open data</h4>
 	<p>Depending on a combination of resources, priorities, and values, cities may have any number of goals for an open data initiative. Common goals include:</p>
