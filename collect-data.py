@@ -17,7 +17,6 @@ from os import environ
 from re import split
 from itertools import chain
 from threading import Thread
-from multiprocessing import Pool
 from sqlite3 import connect, IntegrityError
 from hashlib import sha1
 from StringIO import StringIO
@@ -42,12 +41,21 @@ def load_sheet_rows(sheet):
 def load_rows(username, password):
     ''' Return a list of all rows from all sheets.
     '''
-    pool = Pool(processes=10)
+    sheet_rows, threads = list(), list()
     
-    sheets = load_sheets(username, password)
-    sheet_rows = pool.map(load_sheet_rows, sheets)
+    def run_load_sheet_rows(sheet):
+        '''
+        '''
+        rows = load_sheet_rows(sheet)
+        sheet_rows.append(rows)
     
-    pool.close()
+    for sheet in load_sheets(username, password):
+        thread = Thread(target=run_load_sheet_rows, args=(sheet, ))
+        thread.start()
+        threads.append(thread)
+    
+    for thread in threads:
+        thread.join()
     
     return list(chain(*sheet_rows))
 
