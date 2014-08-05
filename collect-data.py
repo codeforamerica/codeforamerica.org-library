@@ -16,6 +16,7 @@ from time import time
 from os import environ
 from re import split
 from itertools import chain
+from threading import Thread
 from multiprocessing import Pool
 from sqlite3 import connect, IntegrityError
 from hashlib import sha1
@@ -94,6 +95,30 @@ def find_thumbnail(item):
     
     return item
 
+def do_thumbnails(items):
+    '''
+    '''
+    count = int(len(items) / 10)
+    output, threads = list(), list()
+
+    def run_thumb_list(sub_items):
+        '''
+        '''
+        for item in sub_items:
+            thumbed_item = find_thumbnail(item)
+            output.append(thumbed_item)
+    
+    while len(items):
+        sub_items, items = items[:count], items[count:]
+        thread = Thread(target=run_thumb_list, args=(sub_items, ))
+        thread.start()
+        threads.append(thread)
+    
+    for thread in threads:
+        thread.join()
+    
+    return output
+
 if __name__ == '__main__':
 
     (dbname, state_file) = argv[1:]
@@ -150,9 +175,7 @@ if __name__ == '__main__':
     print 'Thumbnailing', len(items), 'items...',
     start_time = time()
     
-    pool = Pool(processes=10)
-    items = pool.map(find_thumbnail, items)
-    pool.close()
+    items = do_thumbnails(items)
     
     print '%.3f seconds' % (time() - start_time)
 
