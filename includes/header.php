@@ -23,27 +23,4 @@
   </header>
 </div>
 
-<div class="global-header">  
-  <a href="/" class="global-header-logo">
-      <img src="<?= $context->base() ?>/assets/logo.png" />
-  </a>
-  <p class="skip-to-nav"><a href="#global-footer">Menu</a></p>
-
-  <nav class="nav-global-secondary">
-    <ul>
-      <li class="nav-tier1 nav-has-children">
-        <a href="/about">About</a>
-      </li>
-      <li class="nav-tier1 nav-has-children">
-        <a href="/cities">Governments</a>
-      </li>
-      <li class="nav-tier1 nav-has-children">
-        <a href="/geeks">Citizens</a>  
-      </li>
-      <li class="nav-tier1">
-        <a href="/our-work">Our Work</a>
-      </li>
-      <li><a href="/support-us" class="button">Donate</a></li>
-    </ul>
-  </nav>    
-</div>
+<?= file_get_contents('http://www.codeforamerica.org/fragments/global-header.html') ?>
