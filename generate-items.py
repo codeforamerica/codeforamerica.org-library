@@ -97,6 +97,9 @@ if __name__ == '__main__':
 
     (dbname, ) = argv[1:]
     
+    #
+    # Read items out of the database.
+    #
     with connect(dbname) as db:
         items = list()
     
@@ -114,20 +117,32 @@ if __name__ == '__main__':
     jinja.filters['u'] = quote_plus
 
     template = jinja.get_template('item.html')
-    dirname = mkdtemp()
     
+    #
+    # Write items to the filesystem.
+    #
     try:
+        dirname = mkdtemp()
+
         for (slug, item, front) in items:
             kwargs = dict(item)
             kwargs.update(front)
             html = template.render(**kwargs)
+            
+            anchor = dict(title=item['title'], format=item['format'],
+                          date=item['date'], summary_txt=item['summary_txt'],
+                          thumb_src=item['thumb_src'],
+                          thumb_ratio=item['thumb_ratio'])
         
+            front.update(dict(title=item['title'], anchor=anchor))
+
             try:
                 with open('{0}/{1}.html'.format(dirname, slug), 'w') as file:
-                    print file.name
                     dump_jekyll_doc(front, html, file)
             except IOError:
-                print '!' * 30
+                print '!' * 20, slug
+            else:
+                print file.name
     except:
         rmtree(dirname)
     else:
