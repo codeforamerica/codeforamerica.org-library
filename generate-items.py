@@ -2,12 +2,29 @@ from sys import argv
 from sqlite3 import connect
 from tempfile import mkdtemp
 from shutil import rmtree, move
+from urllib import quote_plus
 
 import yaml
+from jinja2 import Environment, PackageLoader
 
 _marker = "---\n"
 
 def load_item(db, item_id):
+    '''
+    '''
+    (row, ) = list(db.execute('''SELECT id, slug, category, title, link,
+                                        date, format, summary_txt, content_htm,
+                                        thumb_src, thumb_ratio, embed_href  
+                                 FROM items WHERE id = ?''',
+                              (item_id, )))
+    
+    cols = ('id', 'slug', 'category', 'title', 'link',
+            'date', 'format','summary_txt', 'content_htm',
+            'thumb_src', 'thumb_ratio', 'embed_href')
+    
+    return dict([(col, row or '') for (col, row) in zip(cols, row)])
+
+def load_extras(db, item_id):
     '''
     '''
     stuff = db.execute('''SELECT tag FROM item_tags
@@ -85,21 +102,30 @@ if __name__ == '__main__':
     
         for (item_id, item_slug) in db.execute('SELECT id, slug FROM items'):
             slug = item_slug or item_id
-            
-            values = load_item(db, item_id)
+    
+            item = load_item(db, item_id)
+            values = load_extras(db, item_id)
             names = 'tags', 'locations', 'programs', 'contacts', 'contributors'
             front = [(key, val) for (key, val) in zip(names, values) if val]
             
-            items.append((slug, dict(front)))
+            items.append((slug, item, dict(front)))
     
+    jinja = Environment(loader=PackageLoader(__name__, '_templates'))
+    jinja.filters['u'] = quote_plus
+
+    template = jinja.get_template('item.html')
     dirname = mkdtemp()
     
     try:
-        for (slug, front) in items:
+        for (slug, item, front) in items:
+            kwargs = dict(item)
+            kwargs.update(front)
+            html = template.render(**kwargs)
+        
             try:
                 with open('{0}/{1}.html'.format(dirname, slug), 'w') as file:
                     print file.name
-                    dump_jekyll_doc(front, 'poop', file)
+                    dump_jekyll_doc(front, html, file)
             except IOError:
                 print '!' * 30
     except:

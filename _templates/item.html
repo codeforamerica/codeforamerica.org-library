@@ -1,0 +1,77 @@
+<div class="heading">
+    <h2>{{title|e}}</h2>
+</div>
+
+<div class="layout-minor">
+    <p>
+        <a href="/category/{{category|u}}">{{category|e}}</a>
+    </p>
+
+    {% if contributors %}
+      <h4 class="text-whisper layout-tight">Contributors</h4>
+      <p>
+        {% for name in contributors %}
+            <a href="/person/{{name|u}}">{{name|e}}</a>{% if not loop.last %},{% endif %}
+        {% endfor %}
+      </p>
+    {% endif %}
+
+    {% if tags %}
+      <h4 class="text-whisper layout-tight">Tags</h4>
+      <p>
+        {% for tag in tags %}
+            <a href="/tag/{{tag|u}}">{{tag|e}}</a>{% if not loop.last %},{% endif %}
+        {% endfor %}
+      </p>
+    {% endif %}
+
+    {% if programs %}
+      <h4 class="text-whisper layout-tight">Programs</h4>
+      <p>
+        {% for prog in programs %}
+            <a href="/program/{{prog|u}}">{{prog|e}}</a>{% if not loop.last %},{% endif %}
+        {% endfor %}
+      </p>
+    {% endif %}
+
+    {% if locations %}
+      <h4 class="text-whisper layout-tight">Locations</h4>
+      <p>
+        {% for loc in locations %}
+            <a href="/location/{{loc|u}}">{{loc|e}}</a>{% if not loop.last %},{% endif %}
+        {% endfor %}
+      </p>
+    {% endif %}
+
+    {% if date %}
+      <h4 class="text-whisper layout-tight">Date</h4>
+      <ul class="list-no-bullets text-whisper link-invert">
+        <li>{{date|e}}</li>
+      </ul>
+    {% endif %}
+
+    {% if contacts %}
+      <h4 class="text-whisper layout-tight">Contacts</h4>
+      <p>
+        {% for name in contacts %}
+            <a href="/person/{{name|u}}">{{name|e}}</a>{% if not loop.last %},{% endif %}
+        {% endfor %}
+      </p>
+    {% endif %}
+
+</div>
+
+<div class="layout-major">
+    {% if format == 'Video' and embed_href %}
+        <div class='video-embed'>
+          <div><iframe src='{{embed_href|e}}' frameborder='0' allowfullscreen></iframe></div>
+        </div>
+    {% endif %}
+    
+    <p>
+        Link:
+        <a href="{{link|e}}">{{link|e}}</a>
+    </p>
+    
+    <p>{{content_htm|safe}}</p>
+</div>
