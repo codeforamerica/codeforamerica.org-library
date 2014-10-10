@@ -1,5 +1,7 @@
 from sys import argv
 from sqlite3 import connect
+from tempfile import mkdtemp
+from shutil import rmtree, move
 
 import yaml
 
@@ -90,11 +92,19 @@ if __name__ == '__main__':
             
             items.append((slug, dict(front)))
     
-    for (slug, front) in items:
-        print slug, '...'
-        
-        try:
-            with open('item/{0}.html'.format(slug), 'w') as file:
-                dump_jekyll_doc(front, 'poop', file)
-        except IOError:
-            print '!' * 30
+    dirname = mkdtemp()
+    
+    try:
+        for (slug, front) in items:
+            try:
+                with open('{0}/{1}.html'.format(dirname, slug), 'w') as file:
+                    print file.name
+                    dump_jekyll_doc(front, 'poop', file)
+            except IOError:
+                print '!' * 30
+    except:
+        rmtree(dirname)
+    else:
+        rmtree('item')
+        move(dirname, 'item')
+        print 'moved to item'
