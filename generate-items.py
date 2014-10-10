@@ -48,16 +48,18 @@ def load_extras(db, item_id):
     
     programs = [program for (program, ) in stuff]
 
-    stuff = db.execute('''SELECT people.* FROM item_contacts
-                      LEFT JOIN people ON people.id = item_contacts.person_id
-                      WHERE item_id = ? AND people.name != ""''',
+    stuff = db.execute('''SELECT people.id, people.name FROM item_contacts
+                          LEFT JOIN people ON people.id = item_contacts.person_id
+                          WHERE item_id = ? AND people.name != ""
+                          ORDER BY people.name''',
                    (item_id, ))
     
     contacts = [name for (id, name) in stuff]
 
-    stuff = db.execute('''SELECT people.* FROM item_contributors
-                      LEFT JOIN people ON people.id = item_contributors.person_id
-                      WHERE item_id = ? AND people.name != ""''',
+    stuff = db.execute('''SELECT people.id, people.name FROM item_contributors
+                          LEFT JOIN people ON people.id = item_contributors.person_id
+                          WHERE item_id = ? AND people.name != ""
+                          ORDER BY people.name''',
                    (item_id, ))
     
     contributors = [name for (id, name) in stuff]
@@ -109,9 +111,15 @@ if __name__ == '__main__':
             item = load_item(db, item_id)
             values = load_extras(db, item_id)
             names = 'tags', 'locations', 'programs', 'contacts', 'contributors'
-            front = [(key, val) for (key, val) in zip(names, values) if val]
+            front = dict([(key, val) for (key, val) in zip(names, values) if val])
             
-            items.append((slug, item, dict(front)))
+            keys = 'title', 'format', 'date', 'summary_txt', 'thumb_src', 'thumb_ratio'
+            anchor = dict([(key, item[key]) for key in keys if item[key]])
+
+            front['title'] = item['title']
+            front['anchor'] = anchor
+            
+            items.append((slug, item, front))
     
     jinja = Environment(loader=PackageLoader(__name__, '_templates'))
     jinja.filters['u'] = quote_plus
@@ -125,17 +133,10 @@ if __name__ == '__main__':
         dirname = mkdtemp()
 
         for (slug, item, front) in items:
-            kwargs = dict(item)
-            kwargs.update(front)
-            html = template.render(**kwargs)
+            vars = dict(item)
+            vars.update(front)
+            html = template.render(**vars)
             
-            anchor = dict(title=item['title'], format=item['format'],
-                          date=item['date'], summary_txt=item['summary_txt'],
-                          thumb_src=item['thumb_src'],
-                          thumb_ratio=item['thumb_ratio'])
-        
-            front.update(dict(title=item['title'], anchor=anchor))
-
             try:
                 with open('{0}/{1}.html'.format(dirname, slug), 'w') as file:
                     dump_jekyll_doc(front, html, file)

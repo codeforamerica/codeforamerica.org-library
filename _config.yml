@@ -1,0 +1,1 @@
+exclude: ['README.md', '*.php', '*.py', '*.txt', '*.db', 'createdb.sql']
