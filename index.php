@@ -23,22 +23,22 @@
 	
     <h2>Library <i>(Alpha)</i></h2>
     
-    <h4>Find videos, how-to guides, and other resources about digital government and civic innovation.</h4>
+    <h3>Find videos, how-to guides, and other resources about digital government and civic innovation.</h3>
     <p>Over the years, Code for America has produced a lot of content about using data, design, and technology to solve civic problems and provide better government services to citizens. In this library, you can browse these resources by category or by civic issues.</p>
     <p>Have something to add? <a href="https://codeforamerica.wufoo.com/forms/library-submission-form/">Submit</a> your own slide decks, videos, documentation, and other useful materials to be included in the Code for America Library.</p>
     
-    <div class="layout-minim">
+    <div class="layout-semibreve">
         <h3>Categories</h3>
-        <ul>
+        <ul class="list-ruled">
             <? foreach(get_categories($context) as $category) { ?>
                 <li><?= category_anchor($context, $category) ?></li>
             <? } ?>
         </ul>
     </div>
 
-    <div class="layout-minim">
+    <div class="layout-semibreve">
         <h3>Civic Issue Tags</h3>
-        <ul>
+        <ul class="list-ruled">
             <? foreach(get_tags($context) as $tag) { ?>
                 <li><?= tag_anchor($context, $tag) ?></li>
             <? } ?>
