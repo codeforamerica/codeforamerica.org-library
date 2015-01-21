@@ -24,7 +24,7 @@
     <h2>Library <i>(Alpha)</i></h2>
     
     <h3>Find videos, how-to guides, and other resources about digital government and civic innovation.</h3>
-    <p>Over the years, Code for America has produced a lot of content about using data, design, and technology to solve civic problems and provide better government services to citizens. In this library, you can browse these resources by category or by civic issues.</p>
+    <p>Code for America has gathered a lot of content about using data, design, and technology to solve civic problems and provide better government services to citizens. In this library, you can browse these resources by category or by civic issues.</p>
     <p>Have something to add? <a href="https://codeforamerica.wufoo.com/forms/library-submission-form/">Submit</a> your own slide decks, videos, documentation, and other useful materials to be included in the Code for America Library.</p>
     
     <div class="layout-semibreve">
