@@ -1,4 +1,4 @@
-<script src="http://style.codeforamerica.org/script/global.js"></script>
+<script src="https://style.codeforamerica.org/script/global.js"></script>
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
