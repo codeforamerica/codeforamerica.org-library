@@ -42,21 +42,21 @@ def load_rows(username, password):
     ''' Return a list of all rows from all sheets.
     '''
     sheet_rows, threads = list(), list()
-    
+
     def run_load_sheet_rows(sheet):
         '''
         '''
         rows = load_sheet_rows(sheet)
         sheet_rows.append(rows)
-    
+
     for sheet in load_sheets(username, password):
         thread = Thread(target=run_load_sheet_rows, args=(sheet, ))
         thread.start()
         threads.append(thread)
-    
+
     for thread in threads:
         thread.join()
-    
+
     return list(chain(*sheet_rows))
 
 def get_aspect_ratio(image_url):
@@ -72,35 +72,35 @@ def find_thumbnail(item):
     '''
     if item['format'] != 'Video':
         return item
-    
+
     from urlparse import urlparse, parse_qs
     from urllib import urlopen
     from os.path import split
     from json import load
-    
+
     try:
         _, host, path, _, query, _ = urlparse(item['link'])
-    
+
         if host in ('youtube.com', 'www.youtube.com'):
             if 'v' in parse_qs(query):
                 id = parse_qs(query)['v'][0]
-                item['thumb_src'] = 'http://img.youtube.com/vi/%s/0.jpg' % id
+                item['thumb_src'] = 'https://img.youtube.com/vi/%s/0.jpg' % id
                 item['thumb_ratio'] = get_aspect_ratio(item['thumb_src'])
-                item['embed_href'] = '//www.youtube.com/embed/%s' % id
-                
+                item['embed_href'] = 'https://www.youtube.com/embed/%s' % id
+
                 if 'link' in parse_qs(query):
                     item['embed_href'] += '?list=%s' % parse_qs(query)['link'][0]
-    
+
         if host in ('vimeo.com', 'www.vimeo.com'):
             id = split(path)[-1]
-            info = load(urlopen('http://vimeo.com/api/v2/video/%s.json' % id))
+            info = load(urlopen('https://vimeo.com/api/v2/video/%s.json' % id))
             item['thumb_src'] = info[0]['thumbnail_large']
             item['thumb_ratio'] = get_aspect_ratio(item['thumb_src'])
-            item['embed_href'] = '//player.vimeo.com/video/%s?title=0&byline=0&portrait=0' % id
-    
+            item['embed_href'] = 'https://player.vimeo.com/video/%s?title=0&byline=0&portrait=0' % id
+
     except:
         pass
-    
+
     return item
 
 def do_thumbnails(items):
@@ -115,31 +115,31 @@ def do_thumbnails(items):
         for item in sub_items:
             thumbed_item = find_thumbnail(item)
             output.append(thumbed_item)
-    
+
     while len(items):
         sub_items, items = items[:count], items[count:]
         thread = Thread(target=run_thumb_list, args=(sub_items, ))
         thread.start()
         threads.append(thread)
-    
+
     for thread in threads:
         thread.join()
-    
+
     return output
 
 if __name__ == '__main__':
 
     (dbname, state_file) = argv[1:]
     items, people = [], []
-    
+
     print 'Downloading...',
     start_time = time()
-    
+
     for row in load_rows(environ['GDOCS_USERNAME'], environ['GDOCS_PASSWORD']):
 
         contributors = set()
         contacts = set()
-        
+
         for name in split(r', *', row.get('Contributors', '').strip()):
             if name not in people:
                 people.append(name)
@@ -149,11 +149,11 @@ if __name__ == '__main__':
             if name not in people:
                 people.append(name)
             contacts.add(people.index(name))
-        
+
         tags = set(split(r', *', row.get('Tags/Keywords', '').strip()))
         locations = set(split(r' *; *', row.get('Location', '').strip()))
         programs = set(split(r', *', row.get('Program', '').strip()))
-        
+
         item = dict(
             slug = row.get('Slug') or None,
             category = row.get('Category') or None,
@@ -172,24 +172,24 @@ if __name__ == '__main__':
             programs = programs,
             tags = tags,
             )
-        
+
         if not item['title']:
-           continue 
-        
+           continue
+
         items.append(item)
-    
+
     print '%.3f seconds' % (time() - start_time)
 
     print 'Thumbnailing', len(items), 'items...',
     start_time = time()
-    
+
     items = do_thumbnails(items)
-    
+
     print '%.3f seconds' % (time() - start_time)
 
     print 'Saving', len(items), 'items...',
     start_time = time()
-    
+
     with connect(dbname) as db:
 
         db.execute('DELETE FROM people')
@@ -202,14 +202,14 @@ if __name__ == '__main__':
 
         db.executemany('INSERT INTO people (id, name) VALUES (?, ?)',
                        list(enumerate(people)))
-        
+
         for item in items:
 
             # Generate an item ID based on five fields.
             fields = 'category title link date format'.split()
             value = repr([(k, item[k]) for k in sorted(fields)])
             item_id = sha1(value).hexdigest()[:16]
-        
+
             try:
                 db.execute('''INSERT INTO items
                               (id, slug, category, title, link, date, format,
@@ -223,16 +223,16 @@ if __name__ == '__main__':
 
                 db.executemany('INSERT INTO item_tags (item_id, tag) VALUES (?, ?)',
                                [(item_id, tag) for tag in item['tags']])
-            
+
                 db.executemany('INSERT INTO item_locations (item_id, location) VALUES (?, ?)',
                                [(item_id, location) for location in item['locations']])
-            
+
                 db.executemany('INSERT INTO item_programs (item_id, program) VALUES (?, ?)',
                                [(item_id, program) for program in item['programs']])
-            
+
                 db.executemany('INSERT INTO item_contributors (item_id, person_id) VALUES (?, ?)',
                                [(item_id, person_id) for person_id in item['contributors']])
-            
+
                 db.executemany('INSERT INTO item_contacts (item_id, person_id) VALUES (?, ?)',
                                [(item_id, person_id) for person_id in item['contacts']])
 
@@ -240,13 +240,13 @@ if __name__ == '__main__':
                 with open(state_file, 'w') as state:
                     print >> state, 'Failed at "%(title)s" in %(category)s,' % item,
                     print >> state, e
-            
+
                 print '--> Failed at "%(title)s" in %(category)s:' % item
                 print '   ', e
                 raise
-            
+
         db.execute('VACUUM')
-    
+
     print '%.3f seconds' % (time() - start_time)
 
     with open(state_file, 'w') as state:

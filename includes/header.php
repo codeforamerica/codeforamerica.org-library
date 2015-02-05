@@ -14,7 +14,7 @@
 
 <div class="masthead masthead-s">
   <div class="masthead-hero">
-    <div class="masthead-image" 
+    <div class="masthead-image"
       style="background-image: url('{{ page.masthead-image }}')">
     </div>
   </div>
@@ -23,4 +23,4 @@
   </header>
 </div>
 
-<?= file_get_contents('http://www.codeforamerica.org/fragments/global-header.html') ?>
+<?= file_get_contents('https://www.codeforamerica.org/fragments/global-header.html') ?>

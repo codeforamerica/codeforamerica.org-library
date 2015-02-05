@@ -1,5 +1,5 @@
 <?php
-    
+
     require_once 'lib.php';
     $context = new Context('data.db');
     $title = 'Sample Page';
@@ -15,24 +15,24 @@
 <div class="layout-semibreve">
     <? include 'includes/header-breadcrumbs.php' ?>
     <!--
-    
+
     Start editing here...
-    
+
     -->
-	
+
     	<h2>Open by Default</h2>
 	<h4>A comprehensive playbook to help you get open data started in your city or county.</h4>
-<div>	
+<div>
 			<p>When public data is made freely available in open, standardized formats, it can drive transparency, community engagement, and accountability. Governments around the country are building a culture and commitment to openness in City Hall across departments by making government data openly and easily available to citizens — and supporting open data with process and technology.</p>
 			<p>In this guide, we’ll explain some of the practical tactics and considerations you’ll need to know to get an open data initiative off the ground in your city or county, drawing upon the experience and expertise of other governments who have successfully done so.</p>
 </div>
 <hr>
 <div class="layout-minor">
-	    	
+
 	        <nav role="navigation" class="toc" id="toc">
-	        	
+
 	        	<h4>Table of Contents</h4>
-	        
+
 		        <ul class="sectlevel1">
 		            <li><a href="#intro">Introduction: What is open data, and why bother?</a>
 		        		<ul><li>Test</li></ul>
@@ -43,7 +43,7 @@
 		            <li><a href="#utility">Making Open Data Useful</a></li>
 		            <li><a href="#resources">Further Resources</a></li>
 		        </ul>
-		        
+
 		 </nav>
 </div>
 <div class="layout-major">
@@ -69,7 +69,7 @@
 	<p>These are just a few of the reasons your government might decide to pursue an open data initiative. In this guide, we’ll explain some of the practical tactics and considerations you’ll need to know to get an open data initiative off the ground in your city or county — drawing upon the experience and expertise of other governments from around the country who have successfully done so.</p>
 	<h4>Acknowledgements:</h4>
 	<p>Many individuals and organizations contributed their knowledge and expertise to this guide. In particular, we would like to thank: Mark Headd, Jim Craner, Peter Koht, Amy Mok, Dave Guarino, Tim O’Reilly, David Eaves, Laura Meixell, Rebecca Williams, Mark Leech, Tim Welsh, Jenny Park, Tim Moreland, Daniel Hoffman, Millie Crossland, Jack Madans, Mike Migurski, Garrett Jacobs, the Sunlight Foundation, and the Open Knowledge Foundation.</p>
-	
+
 </div>
 <div class="layout-semibreve">
 	<div class="badge-heading badge-gov badge-blue" id="groundwork">
@@ -84,11 +84,11 @@
                 </a>
             </header>
             <div class="teaser-body">
-                
+
             </div>
             <footer class="teaser-footer">
                 <a href="/library/item/f455738399e69e62" class="teaser-masthead">
-                    <img class="teaser-image" src="http://i.vimeocdn.com/video/243444779_640.jpg" style="top: -34px; position: relative">
+                    <img class="teaser-image" src="https://i.vimeocdn.com/video/243444779_640.jpg" style="top: -34px; position: relative">
                     <span class="teaser-type teaser-type-article">Video, 2011</span>
                 </a>
                 <a href="/library/category/Defaulting+to+Open" class="teaser-source">Defaulting to Open</a>
@@ -117,9 +117,9 @@
 </div>
 
     <!--
-    
+
     ...finish editing here.
-    
+
     -->
 </div>
 <? include 'includes/footer.php' ?>
