@@ -29,7 +29,7 @@ def load_sheets(username, password):
     ''' Return a list of worksheets, except 'tbd' and 'Taxonomy'.
     '''
     gc = gspread.login(username, password)
-    doc = gc.open('CfA Library Taxonomy')
+    doc = gc.open_by_key('0Aq3Uxh3j2025dG50aWFRTm9NbFI3T1ZsUzJnTnBBeGc')
     return [s for s in doc.worksheets() if s.title not in ('tbd', 'Taxonomy')]
 
 def load_sheet_rows(sheet):
