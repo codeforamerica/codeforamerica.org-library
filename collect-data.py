@@ -15,15 +15,21 @@ from sys import argv
 from time import time
 from os import environ
 from re import split
+from csv import DictReader
 from itertools import chain
 from threading import Thread
 from sqlite3 import connect, IntegrityError
 from hashlib import sha1
-from StringIO import StringIO
+from os.path import splitext
+from cgi import parse_header
+from io import StringIO, BytesIO
 
 import gspread
 import requests
+import uritemplate
 from PIL import Image
+
+csv_url = 'https://docs.google.com/a/codeforamerica.org/spreadsheets/d/1kA4XvLGphvCtc9b-EhmovM9C_PNAv-a8GHDosSlbwpQ/export?format=csv&gid={gid}'
 
 def load_sheets(username, password):
     ''' Return a list of worksheets, except 'tbd' and 'Taxonomy'.
@@ -58,6 +64,31 @@ def load_rows(username, password):
         thread.join()
     
     return list(chain(*sheet_rows))
+
+def load_rows_from_csvs(url):
+    ''' Return a list of all rows from all sheets, except 'tbd' and 'Taxonomy'.
+    '''
+    sheets = list()
+    
+    for gid in range(0, 50):
+        got = requests.get(uritemplate.expand(url, dict(gid=gid)))
+        if got.status_code != 200:
+            continue
+        
+        _, params = parse_header(got.headers['Content-Disposition'])
+        if 'filename' not in params:
+            continue
+        
+        basename, _ = splitext(params['filename'])
+        if basename.split('-')[-1] in ('tbd', 'Taxonomy'):
+            continue
+        
+        raw = BytesIO(got.content)
+        for raw_row in DictReader(raw, dialect='excel'):
+            row = {k.decode('utf8'): v.decode('utf8') for (k, v) in raw_row.items()}
+            sheets.append(row)
+    
+    return sheets
 
 def get_aspect_ratio(image_url):
     '''
@@ -135,7 +166,7 @@ if __name__ == '__main__':
     print 'Downloading...',
     start_time = time()
     
-    for row in load_rows(environ['GDOCS_USERNAME'], environ['GDOCS_PASSWORD']):
+    for row in load_rows_from_csvs(csv_url):
 
         contributors = set()
         contacts = set()

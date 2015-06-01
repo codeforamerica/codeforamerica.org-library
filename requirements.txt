@@ -1,3 +1,4 @@
 gspread >= 0.1.0, < 0.2.0
+uritemplate == 0.6
 pillow
 requests
